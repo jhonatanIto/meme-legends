@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1775208908541,
+      "tag": "0000_concerned_prism",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775221298296,
+      "tag": "0001_bent_captain_midlands",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1775519882242,
+      "tag": "0002_amazing_darkstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1775520280277,
+      "tag": "0003_broken_sersi",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1775520422382,
+      "tag": "0004_reflective_malice",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1775522068065,
+      "tag": "0005_low_wolverine",
+      "breakpoints": true
+    }
+  ]
+}
