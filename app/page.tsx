@@ -1,17 +1,14 @@
 import Collection from "@/components/Collection";
 import ProductCard from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { stripe } from "@/lib/stripe";
+import { getProduct } from "@/lib/get-products";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function Home() {
-  const products = await stripe.products.list({
-    expand: ["data.default_price"],
-    limit: 5,
-  });
+  const products = await getProduct();
 
-  const arrivals = products.data.slice(0, 4);
+  const arrivals = products.slice(0, 4);
 
   return (
     <div>
@@ -43,7 +40,7 @@ export default async function Home() {
             alt="Hero image"
             width={450}
             height={450}
-            src={products.data[0].images[0]}
+            src={products[1].imageUrl || ""}
           />
         </div>
       </section>

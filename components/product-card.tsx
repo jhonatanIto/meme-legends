@@ -1,24 +1,25 @@
 import Link from "next/link";
-import Stripe from "stripe";
+
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { Product } from "@/lib/get-products";
 
 interface Props {
-  product: Stripe.Product;
+  product: Product;
 }
 
 const ProductCard = ({ product }: Props) => {
-  const price = product.default_price as Stripe.Price;
+  const price = product.price;
 
   return (
     <Link href={`/products/${product.id}`} className="block h-full">
       <Card className="group hover:shadow-2xl transition duration-300 py-0 h-full flex flex-col border-gray-300 gap-0">
-        {product.images && product.images[0] && (
+        {product.imageUrl && (
           <div className="relative h-75 w-full">
             <Image
               alt={product.name}
-              src={product.images[0]}
+              src={product.imageUrl}
               layout="fill"
               objectFit="cover"
               className="group-hover:opacity-90 transition-opacity duration-300 rounded-t-lg"
@@ -36,9 +37,9 @@ const ProductCard = ({ product }: Props) => {
                 {product.description}
               </p>
             )}
-            {price && price.unit_amount && (
+            {price && (
               <p className="text-lg font-semibold text-gray-900">
-                ${(price.unit_amount / 100).toFixed(2)}
+                ${(price / 100).toFixed(2)}
               </p>
             )}
 

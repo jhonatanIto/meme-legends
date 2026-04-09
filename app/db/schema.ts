@@ -39,16 +39,16 @@ export const productCategoryEnum = pgEnum("product_category", [
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
 
-  name: text("name"),
-  description: text("description"),
-  category: productCategoryEnum("category"),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  category: productCategoryEnum("category").notNull(),
 
-  price: integer("price"),
+  price: integer("price").notNull(),
   currency: text("currency").default("usd"),
 
-  imageUrl: text("image_url"),
+  imageUrl: text("image_url").notNull(),
 
-  printifyProductId: text("printify_product_id"),
+  printifyProductId: text("printify_product_id").notNull(),
 
   active: boolean("active").default(true),
 

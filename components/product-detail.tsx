@@ -1,19 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Stripe from "stripe";
 import { Button } from "./ui/button";
 import { useCartStore } from "@/store/cart-store";
-import { convertServerPatchToFullTree } from "next/dist/client/components/segment-cache/navigation";
 import Link from "next/link";
+import { Product } from "@/lib/get-products";
 
 interface Props {
-  product: Stripe.Product;
+  product: Product;
 }
 
 export const ProductDetail = ({ product }: Props) => {
   const { items, addItem, removeItem } = useCartStore();
-  const price = product.default_price as Stripe.Price;
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
 
@@ -21,19 +19,20 @@ export const ProductDetail = ({ product }: Props) => {
     addItem({
       id: product.id,
       name: product.name,
-      price: price.unit_amount as number,
-      imageUrl: product.images ? product.images[0] : null,
+      price: product.price,
+      imageUrl: product.imageUrl ?? null,
       quantity: 1,
+      printifyProductId: product.printifyProductId,
     });
   };
 
   return (
     <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-center">
-      {product.images && product.images[0] && (
+      {product.imageUrl && (
         <div className="relative h-150 w-full md:w-1/2 rounded-lg overflow-hidden">
           <Image
             alt={product.name}
-            src={product.images[0]}
+            src={product.imageUrl}
             layout="fill"
             objectFit="cover"
             className="transition duration-300 "
@@ -46,9 +45,9 @@ export const ProductDetail = ({ product }: Props) => {
         {product.description && (
           <p className="text-gray-700 mb-4">{product.description}</p>
         )}
-        {price && price.unit_amount && (
+        {product.price && (
           <p className="text-lg font-semibold text-gray-900">
-            ${(price.unit_amount / 100).toFixed(2)}
+            ${(product.price / 100).toFixed(2)}
           </p>
         )}
 

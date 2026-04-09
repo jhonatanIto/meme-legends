@@ -1,14 +1,16 @@
 import { ProductDetail } from "@/components/product-detail";
-import { stripe } from "@/lib/stripe";
+import { getProduct } from "@/lib/get-products";
 
 const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
-  const product = await stripe.products.retrieve(id, {
-    expand: ["default_price"],
-  });
+  const productList = await getProduct();
+  const product = productList.find((p) => p.id === Number(id));
 
-  const plainProduct = JSON.parse(JSON.stringify(product));
-  return <ProductDetail product={plainProduct} />;
+  if (!product) {
+    return <div>Not Found</div>;
+  }
+
+  return <ProductDetail product={product} />;
 };
 
 export default Product;

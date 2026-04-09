@@ -2,17 +2,18 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export interface CartItem {
-  id: string;
+  id: number;
   name: string;
   price: number;
   imageUrl: string | null;
   quantity: number;
+  printifyProductId: string;
 }
 
 interface CartStore {
   items: CartItem[];
   addItem: (item: CartItem) => void;
-  removeItem: (id: string) => void;
+  removeItem: (id: number) => void;
   clearCart: () => void;
 }
 
