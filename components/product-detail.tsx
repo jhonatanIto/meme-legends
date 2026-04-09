@@ -27,7 +27,7 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
   const { items, addItem } = useCartStore();
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
-  const [selectedColor, setSelectedColor] = useState("Black");
+  const [selectedColor, setSelectedColor] = useState("White");
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedQty, setSelectedQty] = useState(1);
   const [colors, setColors] = useState<string[]>([]);
@@ -35,6 +35,8 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
   const [showQuantity, setShowQuantity] = useState(false);
   const qtyRef = useRef<HTMLDivElement>(null);
   const qty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  console.log(items);
 
   const colorsCode: Record<string, string> = {
     White: "#ffffff",
@@ -62,7 +64,6 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
       const res = await fetch(`/api/printify/${product.printifyProductId}`);
       const data: DataApi = await res.json();
       setSizes(data.options[1].values);
-      console.log(data);
 
       const enabledVariants = data.variants.filter((v) => v.is_enabled) ?? [];
 
@@ -84,6 +85,7 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
       imageUrl: product.imageUrl ?? null,
       quantity: selectedQty,
       printifyProductId: product.printifyProductId,
+      size: selectedSize,
     });
   };
 
@@ -125,6 +127,7 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
                     className={` border m-1.5 border-zinc-300 cursor-pointer p-4.5 
                    ${selectedColor === c ? "rounded-3xl border-blue-500" : "rounded-xl"}`}
                     key={c}
+                    onClick={() => setSelectedColor(c)}
                   />
                 );
               })}
@@ -180,9 +183,7 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
               className=" bg-blue-500 p-6 text-[15px] h-10 md:text-[18px] md:w-100 md:rounded-4xl 
              min-w-30 cursor-pointer hover:bg-blue-500/80 ml-2 "
               onClick={() => {
-                if (quantity === 0) {
-                  onAddItem();
-                }
+                onAddItem();
               }}
             >
               Add to Cart
