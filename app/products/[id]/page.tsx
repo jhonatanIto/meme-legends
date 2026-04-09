@@ -10,7 +10,14 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
     return <div>Not Found</div>;
   }
 
-  return <ProductDetail product={product} />;
+  const recomendedList = await getProduct(product.category);
+
+  return (
+    <ProductDetail
+      product={product}
+      recomendedList={recomendedList.slice(0, 3)}
+    />
+  );
 };
 
 export default Product;
