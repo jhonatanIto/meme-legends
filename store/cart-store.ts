@@ -71,8 +71,7 @@ export const useCartStore = create<CartStore>()(
                 !(
                   i.id === item.id &&
                   i.size === item.size &&
-                  i.color &&
-                  item.color
+                  i.color === item.color
                 ),
             ),
           };
