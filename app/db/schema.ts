@@ -8,6 +8,17 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
+export const productCategoryEnum = pgEnum("product_category", [
+  "tshirt",
+  "mug",
+  "hoodie",
+  "phonecase",
+  "notebook",
+  "mousepad",
+  "pillow",
+  "underwear",
+]);
+
 export const orders = pgTable("orders", {
   id: text("id").primaryKey(),
   email: text("email"),
@@ -23,18 +34,9 @@ export const orderItems = pgTable("order_items", {
   name: text("name"),
   price: integer("price"),
   quantity: integer("quantity"),
+  size: text("size"),
+  category: productCategoryEnum("category"),
 });
-
-export const productCategoryEnum = pgEnum("product_category", [
-  "tshirt",
-  "mug",
-  "hoodie",
-  "phonecase",
-  "notebook",
-  "mousepad",
-  "pillow",
-  "underwear",
-]);
 
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),

@@ -1,9 +1,21 @@
 import { productCategoryEnum, products } from "@/app/db/schema";
 import { db } from "./db";
-import { eq, InferSelectModel } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 
-export type Product = InferSelectModel<typeof products>;
+export type Product = {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  currency: string;
+  imageUrl: string;
+  size: string;
+  active: boolean;
+  createdAt: string;
+  printifyProductId: string;
+};
 
 type Category = (typeof productCategoryEnum.enumValues)[number];
 

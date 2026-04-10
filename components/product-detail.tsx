@@ -4,9 +4,9 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { useCartStore } from "@/store/cart-store";
 import { Product } from "@/lib/get-products";
-import { useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react";
 import ProductCard from "./product-card";
+import Qty from "./Qty";
 
 interface Props {
   product: Product;
@@ -32,11 +32,7 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
   const [selectedQty, setSelectedQty] = useState(1);
   const [colors, setColors] = useState<string[]>([]);
   const [sizes, setSizes] = useState<Size[]>([]);
-  const [showQuantity, setShowQuantity] = useState(false);
-  const qtyRef = useRef<HTMLDivElement>(null);
-  const qty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  console.log(items);
+  const [sizeAlert, setSizeAlert] = useState(false);
 
   const colorsCode: Record<string, string> = {
     White: "#ffffff",
@@ -44,20 +40,6 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
     Red: "#C62A32",
     Sky: "#8BCDEA",
   };
-
-  useEffect(() => {
-    const closeQty = (e: MouseEvent) => {
-      if (qtyRef.current && !qtyRef.current.contains(e.target as Node)) {
-        setShowQuantity(false);
-      }
-    };
-
-    window.addEventListener("mousedown", closeQty);
-
-    return () => {
-      window.removeEventListener("mousedown", closeQty);
-    };
-  }, []);
 
   useEffect(() => {
     const productData = async () => {
@@ -86,6 +68,7 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
       quantity: selectedQty,
       printifyProductId: product.printifyProductId,
       size: selectedSize,
+      color: selectedColor,
     });
   };
 
@@ -139,9 +122,15 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
               {sizes.map((s) => {
                 return (
                   <div
+                    style={{
+                      borderColor:
+                        selectedSize === s.title
+                          ? "oklch(62.3% 0.214 259.815)"
+                          : "",
+                    }}
                     key={s.id}
                     className="pr-5 pl-5 p-3 min-w-14 flex items-center justify-center
-                   border-2 rounded-[10px] m-1 cursor-pointer"
+                   border-2 rounded-[10px] m-1 cursor-pointer transition-all duration-200"
                     onClick={() => setSelectedSize(s.title)}
                   >
                     {s.title}
@@ -149,40 +138,25 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
                 );
               })}
             </div>
+            {sizeAlert && !selectedSize && (
+              <div className="text-red-600 mt-3">Please select a size</div>
+            )}
           </div>
 
           <div className="flex  items-center mt-5">
-            <div ref={qtyRef} className="relative">
-              <button
-                className="border-2 p-3 pl-3 pr-3 w-20 h-fit flex justify-around rounded-xl 
-          cursor-pointer"
-                onClick={() => setShowQuantity((prev) => !prev)}
-              >
-                {selectedQty} <ChevronDown className="text-zinc-400" />
-              </button>
-              <div
-                style={{ display: showQuantity ? "block" : "none" }}
-                className="absolute border [&>div]:p-1 [&>div]:hover:bg-blue-500 [&>div]:hover:text-white
-            cursor-pointer w-full [&>div]:pl-4.5 [&>div]:bg-white"
-              >
-                {qty.map((q) => (
-                  <div
-                    key={q}
-                    onClick={() => {
-                      setSelectedQty(q);
-                      setShowQuantity(false);
-                    }}
-                  >
-                    {q}
-                  </div>
-                ))}
-              </div>
-            </div>
-
+            <Qty
+              product={null}
+              selectedQty={selectedQty}
+              setSelectedQty={setSelectedQty}
+              checkout={false}
+            />
             <Button
               className=" bg-blue-500 p-6 text-[15px] h-10 md:text-[18px] md:w-100 md:rounded-4xl 
              min-w-30 cursor-pointer hover:bg-blue-500/80 ml-2 "
               onClick={() => {
+                if (!selectedColor || !selectedSize) {
+                  return setSizeAlert(true);
+                }
                 onAddItem();
               }}
             >

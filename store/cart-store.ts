@@ -9,13 +9,14 @@ export interface CartItem {
   quantity: number;
   printifyProductId: string;
   size: string;
+  color: string;
 }
 
 interface CartStore {
   items: CartItem[];
   addItem: (item: CartItem) => void;
-  removeItem: (id: number) => void;
-  clearCart: () => void;
+  removeItem: (item: CartItem) => void;
+  alterQty: (item: CartItem) => void;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -24,12 +25,19 @@ export const useCartStore = create<CartStore>()(
       items: [],
       addItem: (item) =>
         set((state) => {
-          const existing = state.items.find((i) => i.id === item.id);
+          const existing = state.items.find(
+            (i) =>
+              i.id === item.id &&
+              i.size === item.size &&
+              i.color === item.color,
+          );
 
           if (existing) {
             return {
               items: state.items.map((i) =>
-                i.id === item.id
+                i.id === item.id &&
+                i.size === item.size &&
+                i.color === item.color
                   ? { ...i, quantity: i.quantity + item.quantity }
                   : i,
               ),
@@ -40,20 +48,34 @@ export const useCartStore = create<CartStore>()(
             items: [...state.items, item],
           };
         }),
-
-      removeItem: (id) =>
+      alterQty: (item) =>
         set((state) => {
           return {
-            items: state.items
-              .map((i) =>
-                i.id === id ? { ...i, quantity: i.quantity - 1 } : i,
-              )
-              .filter((i) => i.quantity > 0),
+            items: state.items.map((i) => {
+              if (
+                i.id === item.id &&
+                i.size === item.size &&
+                i.color === item.color
+              ) {
+                return { ...i, quantity: item.quantity };
+              }
+              return i;
+            }),
           };
         }),
-      clearCart: () =>
-        set(() => {
-          return { items: [] };
+      removeItem: (item) =>
+        set((state) => {
+          return {
+            items: state.items.filter(
+              (i) =>
+                !(
+                  i.id === item.id &&
+                  i.size === item.size &&
+                  i.color &&
+                  item.color
+                ),
+            ),
+          };
         }),
     }),
     { name: "cart" },
