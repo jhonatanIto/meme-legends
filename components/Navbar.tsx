@@ -34,13 +34,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
-        <Link
-          href={"/"}
-          className="text-blue-500 font-bold"
-          onClick={getProducts}
-        >
+    <nav className="sticky top-0 z-50  shadow bg-white text-gray-700 font-semibold ">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3">
+        <Link href={"/"} className=" font-bold text-2xl" onClick={getProducts}>
           MEME-LEGENDS
         </Link>
 

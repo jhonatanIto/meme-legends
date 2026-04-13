@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["files.stripe.com", "images-api.printify.com"],
+    domains: ["images-api.printify.com", "i.pinimg.com"],
   },
 };
 

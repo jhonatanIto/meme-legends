@@ -17,6 +17,8 @@ interface CartStore {
   addItem: (item: CartItem) => void;
   removeItem: (item: CartItem) => void;
   alterQty: (item: CartItem) => void;
+  currentColor: { url: string; colorName: string };
+  setCurrentColor: (color: { url: string; colorName: string }) => void;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -76,6 +78,12 @@ export const useCartStore = create<CartStore>()(
             ),
           };
         }),
+
+      currentColor: {
+        url: "",
+        colorName: "",
+      },
+      setCurrentColor: (color) => set(() => ({ currentColor: color })),
     }),
     { name: "cart" },
   ),

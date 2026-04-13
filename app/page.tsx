@@ -7,12 +7,20 @@ import Link from "next/link";
 
 export default async function Home() {
   const products = await getProduct();
+  console.log(products);
 
   const arrivals = products.slice(0, 4);
 
   return (
     <div>
-      <section className="rounded bg-neutral-100 py-8 sm:py-12">
+      <section className="rounded bg-neutral-100 py-8 sm:py-12 relative overflow-hidden">
+        <Image
+          src="https://i.pinimg.com/736x/1c/e7/b8/1ce7b86a624def6642941e8263793c09.jpg"
+          alt="Hero image"
+          fill
+          priority
+          className="object-cover object-[100%_40%]"
+        />
         <div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-8 sm:px-16 md:grid-cols-2 ">
           <div className="max-w-max space-y-4 ">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl ">
@@ -40,7 +48,7 @@ export default async function Home() {
             alt="Hero image"
             width={450}
             height={450}
-            src={products[1].imageUrl || ""}
+            src={products[1].images[0].imageUrl || ""}
           />
         </div>
       </section>

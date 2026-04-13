@@ -10,6 +10,7 @@ interface Props {
 
 const ProductList = ({ products }: Props) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
+
   const filteredProduct = products.filter((p) => {
     const term = searchTerm.toLowerCase();
     const nameMatch = p.name.toLocaleLowerCase().includes(term);
@@ -19,6 +20,8 @@ const ProductList = ({ products }: Props) => {
 
     return nameMatch || descriptionMatch;
   });
+
+  console.log(products);
 
   return (
     <div>
@@ -32,7 +35,7 @@ const ProductList = ({ products }: Props) => {
         />
       </div>
 
-      <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {filteredProduct.map((p, key) => {
           return (
             <li key={key}>

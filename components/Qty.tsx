@@ -33,7 +33,7 @@ const Qty = ({ setSelectedQty, selectedQty, product, checkout }: Props) => {
   return (
     <div ref={qtyRef} className="relative">
       <button
-        className="border-2 p-3 pl-3 pr-3 w-20 h-fit flex justify-around rounded-xl 
+        className="border-2 p-4 pl-3 pr-3 w-20 h-fit flex justify-around rounded-xl 
           cursor-pointer"
         onClick={() => setShowQuantity((prev) => !prev)}
       >
@@ -41,7 +41,7 @@ const Qty = ({ setSelectedQty, selectedQty, product, checkout }: Props) => {
       </button>
       <div
         style={{ display: showQuantity ? "block" : "none" }}
-        className="absolute border [&>div]:p-1 [&>div]:hover:bg-blue-500 [&>div]:hover:text-white
+        className="absolute border border-zinc-400 [&>div]:p-1 [&>div]:hover:bg-blue-500 [&>div]:hover:text-white
             cursor-pointer w-full [&>div]:pl-4.5 [&>div]:bg-white z-20"
       >
         {qty.map((q) => (

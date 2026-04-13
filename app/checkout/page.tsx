@@ -43,8 +43,8 @@ export default function CheckoutPage() {
       <div className=" mb-8 ">
         <div>
           <ul className="space-y-4">
-            {items.map((item) => (
-              <li key={item.id} className="flex flex-col gap-2  pb-2">
+            {items.map((item, key) => (
+              <li key={key} className="flex flex-col gap-2  pb-2">
                 <div className="flex justify-between">
                   <div className="flex  items-center">
                     {item.imageUrl && (

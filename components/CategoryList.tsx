@@ -11,6 +11,7 @@ const CategoryList = () => {
   const options = [
     { name: "All Products", url: "" },
     { name: "T-Shirt", url: "category/tshirt" },
+    { name: "Hoodie", url: "category/hoodie" },
     { name: "Mug", url: "category/mug" },
     { name: "Phone case", url: "category/phonecase" },
     { name: "Notebook", url: "category/notebook" },

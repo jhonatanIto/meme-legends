@@ -11,6 +11,7 @@ import Qty from "./Qty";
 interface Props {
   product: Product;
   recomendedList: Product[];
+  colors: { id: number; color: string; imageUrl: string }[];
 }
 
 interface Size {
@@ -23,15 +24,31 @@ interface DataApi {
   variants: { is_enabled: boolean; title: string }[];
 }
 
-export const ProductDetail = ({ product, recomendedList }: Props) => {
-  const { items, addItem } = useCartStore();
+export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
+  const { items, addItem, currentColor } = useCartStore();
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
-  const [selectedColor, setSelectedColor] = useState("White");
+  const [colorUrl, setColorUrl] = useState(currentColor.url);
+  const [selectedColor, setSelectedColor] = useState(currentColor.colorName);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedQty, setSelectedQty] = useState(1);
-  const [colors, setColors] = useState<string[]>([]);
-  const [sizes, setSizes] = useState<Size[]>([]);
+  const [enabledColor, setEnabledColor] = useState<string[]>([]);
+  const [sizes, setSizes] = useState<Size[]>([
+    { id: 14, title: "S" },
+
+    { id: 15, title: "M" },
+
+    { id: 16, title: "L" },
+
+    { id: 17, title: "XL" },
+
+    { id: 18, title: "2XL" },
+
+    { id: 19, title: "3XL" },
+    { id: 20, title: "4XL" },
+
+    { id: 21, title: "5XL" },
+  ]);
   const [sizeAlert, setSizeAlert] = useState(false);
 
   const colorsCode: Record<string, string> = {
@@ -53,7 +70,7 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
         ...new Set(enabledVariants.map((v) => v.title.split("/")[0].trim())),
       ];
 
-      setColors(uniqueColors);
+      setEnabledColor(uniqueColors);
     };
 
     productData();
@@ -75,11 +92,11 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
   return (
     <div>
       <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-center ">
-        {product.imageUrl && (
+        {product.images[0] && (
           <div className="relative h-150 w-full md:w-1/2 rounded-lg overflow-hidden ">
             <Image
               alt={product.name}
-              src={product.imageUrl}
+              src={colorUrl}
               layout="fill"
               objectFit="cover"
               className="transition duration-300 "
@@ -106,11 +123,14 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
               {colors.map((c) => {
                 return (
                   <div
-                    style={{ background: colorsCode[c] }}
-                    className={` border m-1.5 border-zinc-300 cursor-pointer p-4.5 
-                   ${selectedColor === c ? "rounded-3xl border-blue-500" : "rounded-xl"}`}
-                    key={c}
-                    onClick={() => setSelectedColor(c)}
+                    style={{ background: colorsCode[c.color] }}
+                    className={`  m-1.5  cursor-pointer p-4.5 border
+                   ${selectedColor === c.color ? "rounded-3xl border-blue-500 border-2" : "rounded-xl border-zinc-300"}`}
+                    key={c.color}
+                    onClick={() => {
+                      setSelectedColor(c.color);
+                      setColorUrl(c.imageUrl);
+                    }}
                   />
                 );
               })}
@@ -119,24 +139,26 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
           <div>
             <div>Select size</div>
             <div className="flex flex-wrap  ">
-              {sizes.map((s) => {
-                return (
-                  <div
-                    style={{
-                      borderColor:
-                        selectedSize === s.title
-                          ? "oklch(62.3% 0.214 259.815)"
-                          : "",
-                    }}
-                    key={s.id}
-                    className="pr-5 pl-5 p-3 min-w-14 flex items-center justify-center
+              {(product.category === "tshirt" ||
+                product.category === "hoodie") &&
+                sizes.map((s) => {
+                  return (
+                    <div
+                      style={{
+                        borderColor:
+                          selectedSize === s.title
+                            ? "oklch(62.3% 0.214 259.815)"
+                            : "",
+                      }}
+                      key={s.id}
+                      className="pr-5 pl-5 p-3 min-w-14 flex items-center justify-center
                    border-2 rounded-[10px] m-1 cursor-pointer transition-all duration-200"
-                    onClick={() => setSelectedSize(s.title)}
-                  >
-                    {s.title}
-                  </div>
-                );
-              })}
+                      onClick={() => setSelectedSize(s.title)}
+                    >
+                      {s.title}
+                    </div>
+                  );
+                })}
             </div>
             {sizeAlert && !selectedSize && (
               <div className="text-red-600 mt-3">Please select a size</div>
@@ -151,7 +173,7 @@ export const ProductDetail = ({ product, recomendedList }: Props) => {
               checkout={false}
             />
             <Button
-              className=" bg-blue-500 p-6 text-[15px] h-10 md:text-[18px] md:w-100 md:rounded-4xl 
+              className=" bg-blue-500 p-7 text-[15px] h-10 md:text-[18px] md:w-100 md:rounded-4xl 
              min-w-30 cursor-pointer hover:bg-blue-500/80 ml-2 "
               onClick={() => {
                 if (!selectedColor || !selectedSize) {

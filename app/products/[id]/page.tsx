@@ -16,6 +16,7 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
     <ProductDetail
       product={product}
       recomendedList={recomendedList.slice(0, 3)}
+      colors={product.images}
     />
   );
 };
