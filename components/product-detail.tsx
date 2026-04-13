@@ -66,7 +66,10 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
     const productData = async () => {
       const res = await fetch(`/api/printify/${product.printifyProductId}`);
       const data: DataApi = await res.json();
-      setSizes(data.options[1].values);
+
+      setSizes(data.options[1]?.values || data.options[0]?.values);
+
+      console.log(data);
 
       const enabledVariants = data.variants.filter((v) => v.is_enabled) ?? [];
 
@@ -143,26 +146,24 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
           <div>
             <div>Select size</div>
             <div className="flex flex-wrap  ">
-              {(product.category === "tshirt" ||
-                product.category === "hoodie") &&
-                sizes.map((s) => {
-                  return (
-                    <div
-                      style={{
-                        borderColor:
-                          selectedSize === s.title
-                            ? "oklch(62.3% 0.214 259.815)"
-                            : "",
-                      }}
-                      key={s.id}
-                      className="pr-5 pl-5 p-3 min-w-14 flex items-center justify-center
+              {sizes.map((s) => {
+                return (
+                  <div
+                    style={{
+                      borderColor:
+                        selectedSize === s.title
+                          ? "oklch(62.3% 0.214 259.815)"
+                          : "",
+                    }}
+                    key={s.id}
+                    className="pr-5 pl-5 p-3 min-w-14 flex items-center justify-center
                    border-2 rounded-[10px] m-1 cursor-pointer transition-all duration-200"
-                      onClick={() => setSelectedSize(s.title)}
-                    >
-                      {s.title}
-                    </div>
-                  );
-                })}
+                    onClick={() => setSelectedSize(s.title)}
+                  >
+                    {s.title}
+                  </div>
+                );
+              })}
             </div>
             {sizeAlert && !selectedSize && (
               <div className="text-red-600 mt-3">Please select a size</div>
