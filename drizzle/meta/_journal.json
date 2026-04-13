@@ -64,6 +64,13 @@
       "when": 1776080606650,
       "tag": "0008_last_wasp",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1776087714383,
+      "tag": "0009_sparkling_monster_badoon",
+      "breakpoints": true
     }
   ]
 }

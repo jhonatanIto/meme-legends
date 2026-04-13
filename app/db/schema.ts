@@ -51,12 +51,12 @@ export const products = pgTable("products", {
   category: productCategoryEnum("category").notNull(),
 
   price: integer("price").notNull(),
-  currency: text("currency").default("usd"),
+  currency: text("currency").default("usd").notNull(),
 
   printifyProductId: text("printify_product_id").notNull(),
 
-  active: boolean("active").default(true),
-  createdAt: timestamp("created_at").defaultNow(),
+  active: boolean("active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const productImages = pgTable(

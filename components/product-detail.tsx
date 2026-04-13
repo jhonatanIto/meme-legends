@@ -28,8 +28,12 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
   const { items, addItem, currentColor } = useCartStore();
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
-  const [colorUrl, setColorUrl] = useState(currentColor.url);
-  const [selectedColor, setSelectedColor] = useState(currentColor.colorName);
+  const [colorUrl, setColorUrl] = useState(
+    currentColor.url || product.images[0].imageUrl,
+  );
+  const [selectedColor, setSelectedColor] = useState(
+    currentColor.colorName || product.images[0].color,
+  );
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedQty, setSelectedQty] = useState(1);
   const [enabledColor, setEnabledColor] = useState<string[]>([]);
@@ -81,7 +85,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
       id: product.id,
       name: product.name,
       price: product.price,
-      imageUrl: product.imageUrl ?? null,
+      imageUrl: colorUrl,
       quantity: selectedQty,
       printifyProductId: product.printifyProductId,
       size: selectedSize,

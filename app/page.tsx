@@ -7,7 +7,6 @@ import Link from "next/link";
 
 export default async function Home() {
   const products = await getProduct();
-  console.log(products);
 
   const arrivals = products.slice(0, 4);
 

@@ -7,13 +7,13 @@ export type Product = {
   id: number;
   name: string;
   description: string;
-  category: string;
+  category: Category;
   price: number;
   currency: string;
   images: Product_Images[];
-  size: string;
+  size?: string;
   active: boolean;
-  createdAt: string;
+  createdAt: Date;
   printifyProductId: string;
 };
 
@@ -21,7 +21,7 @@ type Product_Images = {
   id: number;
   imageUrl: string;
   color: string;
-  product_id: number;
+  productId: number;
 };
 
 type Category = (typeof productCategoryEnum.enumValues)[number];

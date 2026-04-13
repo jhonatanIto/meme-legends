@@ -51,7 +51,7 @@ const ProductCard = ({ product }: Props) => {
           <p className="text-[17px] text-gray-800">
             ${(price / 100).toFixed(2)}
           </p>
-          <p className="flex mt-3 ">
+          <div className="flex mt-3 ">
             {product.images.map((i) => (
               <div
                 key={i.id}
@@ -70,7 +70,7 @@ const ProductCard = ({ product }: Props) => {
                 />
               </div>
             ))}
-          </p>
+          </div>
         </CardContent>
       </CardHeader>
     </div>
