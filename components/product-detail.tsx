@@ -7,6 +7,7 @@ import { Product } from "@/lib/get-products";
 import { useEffect, useState } from "react";
 import ProductCard from "./product-card";
 import Qty from "./Qty";
+import AddedModal from "./AddedModal";
 
 interface Props {
   product: Product;
@@ -54,6 +55,8 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
     { id: 21, title: "5XL" },
   ]);
   const [sizeAlert, setSizeAlert] = useState(false);
+
+  const [addedCart, setAddedCart] = useState(false);
 
   const colorsCode: Record<string, string> = {
     White: "#ffffff",
@@ -185,6 +188,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
                   return setSizeAlert(true);
                 }
                 onAddItem();
+                setAddedCart(true);
               }}
             >
               Add to Cart
@@ -202,6 +206,19 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
           ))}
         </ul>
       </div>
+      <AddedModal
+        product={{
+          name: product.name,
+          price: product.price,
+          imageUrl: colorUrl,
+          quantity: selectedQty,
+          size: selectedSize,
+          color: selectedColor,
+        }}
+        addedCart={addedCart}
+        setAddedCart={setAddedCart}
+        recomendedList={recomendedList}
+      />
     </div>
   );
 };

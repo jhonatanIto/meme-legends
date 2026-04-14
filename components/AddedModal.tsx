@@ -1,0 +1,139 @@
+import { Product } from "@/lib/get-products";
+import { useCartStore } from "@/store/cart-store";
+import { Check, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+
+interface Props {
+  product: {
+    name: string;
+    price: number;
+    imageUrl: string;
+    quantity: number;
+    size: string;
+    color: string;
+  };
+  setAddedCart: React.Dispatch<React.SetStateAction<boolean>>;
+  addedCart: boolean;
+  recomendedList: Product[];
+}
+
+const AddedModal = ({
+  product,
+  addedCart,
+  setAddedCart,
+  recomendedList,
+}: Props) => {
+  const { items } = useCartStore();
+  const boxRef = useRef<HTMLDivElement>(null);
+  const total = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0,
+  );
+
+  useEffect(() => {
+    const closeModal = (e: MouseEvent) => {
+      if (boxRef && !boxRef.current?.contains(e.target as Node)) {
+        setAddedCart(false);
+      }
+    };
+
+    window.addEventListener("mousedown", closeModal);
+
+    return () => {
+      window.removeEventListener("mousedown", closeModal);
+    };
+  }, []);
+  return (
+    <div
+      className={`${addedCart ? "flex" : "hidden"} fixed inset-0 flex justify-end items-center bg-white/80 z-50`}
+    >
+      <div ref={boxRef} className=" h-full text-zinc-800 pr-20 bg-white">
+        <div className="flex items-center mt-15 ">
+          <Check size={30} className="text-4xl" />{" "}
+          <p className="ml-1 text-[22px] font-semibold">ADDED TO CART</p>{" "}
+          <X
+            size={40}
+            className="ml-20 text-zinc-600 cursor-pointer"
+            onClick={() => setAddedCart(false)}
+          />
+        </div>
+
+        <div className="flex mt-5 items-center">
+          <Image
+            width={150}
+            height={20}
+            src={product.imageUrl}
+            alt={product.name}
+          />
+          <div>
+            <div className="text-[20px] font-semibold">
+              {product.name}-{product.color} / {product.size}
+            </div>
+            <div className="text-[18px] mt-1">
+              ${(product.price / 100).toFixed(2)}
+            </div>
+            <div className="mt-1">
+              Quantity: <span>{product.quantity}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 flex justify-between">
+          Cart Subtotal ({items.length} {items.length > 1 ? "items" : "item"}):{" "}
+          <span>USD ${(total / 100).toFixed(2)}</span>
+        </div>
+
+        <div className="flex w-full justify-between mt-6  ">
+          <Link href={"/checkout"}>
+            <button
+              className="border-2 border-zinc-800 hover:text-zinc-800/50 hover:border-zinc-800/50
+             p-2.5 rounded-3xl pl-10 pr-10 cursor-pointer duration-200 transition-all font-semibold "
+            >
+              View Cart
+            </button>
+          </Link>
+          <Link href={"/"}>
+            <button
+              className="text-white bg-blue-500 hover:bg-blue-500/70
+             p-2.5 rounded-3xl pl-10 pr-10 cursor-pointer duration-200 transition-all font-semibold "
+            >
+              Checkout
+            </button>
+          </Link>
+        </div>
+
+        <div className="mt-6 text-[22px] font-semibold">YOU MAY ALSO LIKE</div>
+        <div>
+          {recomendedList.map((r, index) => (
+            <div key={index} className="flex mt-5 items-center">
+              <Image
+                width={150}
+                height={20}
+                src={r.images[0].imageUrl}
+                alt={r.name}
+              />
+              <div>
+                <div className="text-[20px] font-semibold cursor-pointer hover:text-blue-500">
+                  {r.name}
+                </div>
+                <div className="text-[18px] mt-1">
+                  ${(r.price / 100).toFixed(2)}
+                </div>
+                <button
+                  className="text-white bg-blue-500 p-2 rounded-3xl mt-2 font-semibold
+                 pl-4 pr-4 hover:bg-blue-500/70 cursor-pointer transition-all duration-200"
+                >
+                  View Product
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AddedModal;
