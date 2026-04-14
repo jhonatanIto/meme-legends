@@ -25,7 +25,7 @@ const AddedModal = ({
   setAddedCart,
   recomendedList,
 }: Props) => {
-  const { items } = useCartStore();
+  const { items, setCurrentColor } = useCartStore();
   const boxRef = useRef<HTMLDivElement>(null);
   const total = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -45,6 +45,8 @@ const AddedModal = ({
       window.removeEventListener("mousedown", closeModal);
     };
   }, []);
+
+  console.log(recomendedList);
   return (
     <div
       className={`${addedCart ? "flex" : "hidden"} fixed inset-0 flex justify-end items-center bg-white/80 z-50`}
@@ -108,25 +110,55 @@ const AddedModal = ({
         <div>
           {recomendedList.map((r, index) => (
             <div key={index} className="flex mt-5 items-center">
-              <Image
-                width={150}
-                height={20}
-                src={r.images[0].imageUrl}
-                alt={r.name}
-              />
+              <Link
+                href={`/products/${r.id}`}
+                onClick={() => {
+                  setCurrentColor({
+                    url: r.images[0].imageUrl,
+                    colorName: r.images[0].color,
+                  });
+                }}
+              >
+                <Image
+                  width={150}
+                  height={20}
+                  src={r.images[0].imageUrl}
+                  alt={r.name}
+                />
+              </Link>
+
               <div>
-                <div className="text-[20px] font-semibold cursor-pointer hover:text-blue-500">
-                  {r.name}
-                </div>
+                <Link href={`/products/${r.id}`}>
+                  <div
+                    className="text-[20px] font-semibold cursor-pointer hover:text-blue-500"
+                    onClick={() =>
+                      setCurrentColor({
+                        url: r.images[0].imageUrl,
+                        colorName: r.images[0].color,
+                      })
+                    }
+                  >
+                    {r.name}
+                  </div>
+                </Link>
+
                 <div className="text-[18px] mt-1">
                   ${(r.price / 100).toFixed(2)}
                 </div>
-                <button
-                  className="text-white bg-blue-500 p-2 rounded-3xl mt-2 font-semibold
+                <Link href={`/products/${r.id}`}>
+                  <button
+                    className="text-white bg-blue-500 p-2 rounded-3xl mt-2 font-semibold
                  pl-4 pr-4 hover:bg-blue-500/70 cursor-pointer transition-all duration-200"
-                >
-                  View Product
-                </button>
+                    onClick={() =>
+                      setCurrentColor({
+                        url: r.images[0].imageUrl,
+                        colorName: r.images[0].color,
+                      })
+                    }
+                  >
+                    View Product
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
