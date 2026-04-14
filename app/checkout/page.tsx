@@ -9,7 +9,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 
 export default function CheckoutPage() {
-  const { items, removeItem, addItem } = useCartStore();
+  const { items, removeItem } = useCartStore();
   const [selectedQty, setSelectedQty] = useState(1);
   const total = items.reduce(
     (acc, item) => acc + item.price * item.quantity,

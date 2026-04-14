@@ -58,7 +58,9 @@ const AddedModal = ({
       >
         <div className="flex items-center mt-15 ">
           <Check size={30} className="text-4xl" />{" "}
-          <p className="ml-1 text-[22px] font-semibold">ADDED TO CART</p>{" "}
+          <p className="ml-1 text-[22px] font-semibold tracking-tight">
+            ADDED TO CART
+          </p>{" "}
           <X
             size={40}
             className="ml-20 text-zinc-600 cursor-pointer"
@@ -74,8 +76,8 @@ const AddedModal = ({
             alt={product.name}
           />
           <div>
-            <div className="text-[20px] font-semibold">
-              {product.name}-{product.color} / {product.size}
+            <div className="text-[20px] font-semibold max-w-40 tracking-tight">
+              {product.name} - {product.color} / {product.size}
             </div>
             <div className="text-[18px] mt-1">
               ${(product.price / 100).toFixed(2)}

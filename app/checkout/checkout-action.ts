@@ -1,5 +1,6 @@
 "use server";
 
+import { getProduct } from "@/lib/get-products";
 import { stripe } from "@/lib/stripe";
 import { CartItem } from "@/store/cart-store";
 import { redirect } from "next/navigation";
@@ -7,14 +8,30 @@ import { redirect } from "next/navigation";
 export const checkoutAction = async (formData: FormData): Promise<void> => {
   const itemsJson = formData.get("items") as string;
   const items = JSON.parse(itemsJson);
-  const line_items = items.map((item: CartItem) => ({
-    price_data: {
-      currency: "usd",
-      product_data: { name: item.name },
-      unit_amount: item.price,
-    },
-    quantity: item.quantity,
-  }));
+
+  const dbProducts = await getProduct();
+
+  const line_items = items.map((item: CartItem) => {
+    const product = dbProducts.find(
+      (p) =>
+        p.id === item.id &&
+        p.printifyProductId === item.printifyProductId &&
+        p.name === item.name,
+    );
+
+    if (!product) {
+      throw new Error(`Product not found: ${item.id}`);
+    }
+
+    return {
+      price_data: {
+        currency: "usd",
+        product_data: { name: item.name, images: [item.imageUrl] },
+        unit_amount: product?.price,
+      },
+      quantity: item.quantity,
+    };
+  });
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],

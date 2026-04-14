@@ -72,8 +72,6 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
 
       setSizes(data.options[1]?.values || data.options[0]?.values);
 
-      console.log(data);
-
       const enabledVariants = data.variants.filter((v) => v.is_enabled) ?? [];
 
       const uniqueColors = [

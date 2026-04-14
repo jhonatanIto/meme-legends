@@ -8,7 +8,7 @@ const page = async () => {
   return (
     <div className="pb-8">
       <div className=" leading-none tracking-tight text-foreground text-center mb-8 relative">
-        <h1 className="text-3xl font-bold">All Products</h1>
+        <h1 className="text-3xl font-bold">ALL PRODUCTS</h1>
         <CategoryList />
       </div>
 
