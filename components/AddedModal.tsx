@@ -46,12 +46,16 @@ const AddedModal = ({
     };
   }, []);
 
-  console.log(recomendedList);
   return (
     <div
-      className={`${addedCart ? "flex" : "hidden"} fixed inset-0 flex justify-end items-center bg-white/80 z-50`}
+      className={`${addedCart ? "pointer-events-auto" : "opacity-0 pointer-events-none"} fixed 
+      inset-0 flex justify-end items-center bg-white/80 z-50  transition-all duration-200 ease-in-out`}
     >
-      <div ref={boxRef} className=" h-full text-zinc-800 pr-20 bg-white">
+      <div
+        ref={boxRef}
+        className={` h-full text-zinc-800 pr-20 bg-white  transition-all duration-400 ease-in-out
+           ${addedCart ? "translate-x-0  pointer-events-auto" : "translate-x-60 md:translate-x-200 opacity-0 pointer-events-none"}`}
+      >
         <div className="flex items-center mt-15 ">
           <Check size={30} className="text-4xl" />{" "}
           <p className="ml-1 text-[22px] font-semibold">ADDED TO CART</p>{" "}
