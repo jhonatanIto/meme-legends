@@ -1,9 +1,12 @@
 "use server";
 
+import { db } from "@/lib/db";
 import { getProduct } from "@/lib/get-products";
 import { stripe } from "@/lib/stripe";
 import { CartItem } from "@/store/cart-store";
+import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
+import { tempOrders } from "../db/schema";
 
 export const checkoutAction = async (formData: FormData): Promise<void> => {
   const itemsJson = formData.get("items") as string;
@@ -33,10 +36,20 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
     };
   });
 
+  const orderId = randomUUID();
+
+  await db
+    .insert(tempOrders)
+    .values({ id: orderId, items: JSON.stringify(items) });
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items,
     mode: "payment",
+
+    metadata: {
+      orderId,
+    },
 
     shipping_address_collection: {
       allowed_countries: [

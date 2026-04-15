@@ -24,6 +24,7 @@ export default function CheckoutPage() {
       </div>
     );
   }
+  console.log(items);
 
   return (
     <div className="container mx-auto px-50 py-8 ">

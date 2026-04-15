@@ -71,6 +71,13 @@
       "when": 1776087714383,
       "tag": "0009_sparkling_monster_badoon",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1776222383669,
+      "tag": "0010_next_wallop",
+      "breakpoints": true
     }
   ]
 }

@@ -21,8 +21,6 @@ const ProductList = ({ products }: Props) => {
     return nameMatch || descriptionMatch;
   });
 
-  console.log(products);
-
   return (
     <div>
       <div className="mb-6 flex justify-center">

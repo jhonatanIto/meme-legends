@@ -10,6 +10,8 @@ export interface CartItem {
   printifyProductId: string;
   size: string;
   color: string;
+  variantId: number;
+  category: string;
 }
 
 interface CartStore {

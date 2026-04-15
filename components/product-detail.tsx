@@ -20,9 +20,9 @@ interface Size {
   title: string;
 }
 
-interface DataApi {
+export interface DataApi {
   options: { values: Size[] }[];
-  variants: { is_enabled: boolean; title: string }[];
+  variants: { is_enabled: boolean; title: string; id: number }[];
 }
 
 export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
@@ -30,10 +30,10 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
   const [colorUrl, setColorUrl] = useState(
-    currentColor.url || product.images[0].imageUrl,
+    currentColor.url || product.images[0].imageUrl || "",
   );
   const [selectedColor, setSelectedColor] = useState(
-    currentColor.colorName || product.images[0].color,
+    currentColor.colorName || product.images[0].color || "",
   );
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedQty, setSelectedQty] = useState(1);
@@ -55,8 +55,10 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
     { id: 21, title: "5XL" },
   ]);
   const [sizeAlert, setSizeAlert] = useState(false);
-
   const [addedCart, setAddedCart] = useState(false);
+  const [productData, setProductData] = useState<DataApi>();
+
+  const sizeOrder = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
 
   const colorsCode: Record<string, string> = {
     White: "#ffffff",
@@ -66,11 +68,13 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
   };
 
   useEffect(() => {
-    const productData = async () => {
+    const fetchProduct = async () => {
       const res = await fetch(`/api/printify/${product.printifyProductId}`);
       const data: DataApi = await res.json();
 
       setSizes(data.options[1]?.values || data.options[0]?.values);
+
+      setProductData(data);
 
       const enabledVariants = data.variants.filter((v) => v.is_enabled) ?? [];
 
@@ -81,10 +85,70 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
       setEnabledColor(uniqueColors);
     };
 
-    productData();
-  }, []);
+    fetchProduct();
+  }, [product.printifyProductId]);
+
+  useEffect(() => {
+    if (
+      !productData ||
+      !selectedColor ||
+      !["tshirt", "hoodie"].includes(product.category)
+    )
+      return;
+
+    const filteredVariants = productData.variants.filter(
+      (v) => v.is_enabled && v.title.split("/")[0].trim() === selectedColor,
+    );
+
+    const availableSizes = filteredVariants.map((v) =>
+      v.title.split("/")[1].trim(),
+    );
+
+    const uniqueSizes = [...new Set(availableSizes)];
+
+    const sortedSizes = uniqueSizes.sort(
+      (a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b),
+    );
+
+    setSizes(
+      sortedSizes.map((size, index) => ({
+        id: index,
+        title: size,
+      })),
+    );
+
+    setSelectedSize("");
+    setSizeAlert(false);
+  }, [selectedColor, productData]);
+
+  const findVariant = () => {
+    if (!productData) return null;
+    let va;
+    if (product.category === "tshirt" || product.category === "hoodie") {
+      va = productData?.variants.find(
+        (v) => v.title.trim() === `${selectedColor} / ${selectedSize}`.trim(),
+      );
+    } else {
+      va = productData.variants.find((v) => v.title.trim() === selectedSize);
+    }
+
+    if (!va) {
+      console.error("Variant not found", {
+        selectedColor,
+        selectedSize,
+      });
+      return null;
+    }
+
+    return va.id;
+  };
 
   const onAddItem = () => {
+    if (!selectedSize) return setSizeAlert(true);
+
+    const variantId = findVariant();
+    if (!variantId) return;
+
     addItem({
       id: product.id,
       name: product.name,
@@ -94,6 +158,8 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
       printifyProductId: product.printifyProductId,
       size: selectedSize,
       color: selectedColor,
+      variantId,
+      category: product.category,
     });
   };
 

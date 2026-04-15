@@ -23,17 +23,18 @@ export const productCategoryEnum = pgEnum("product_category", [
 ]);
 
 export const orders = pgTable("orders", {
-  id: text("id").primaryKey(),
+  id: serial("id").primaryKey(),
   email: text("email"),
   name: text("name"),
   total: integer("total"),
   stripeSessionId: text("stripe_session_id"),
+  status: text("status"),
   created_at: timestamp("created_at").defaultNow(),
 });
 
 export const orderItems = pgTable("order_items", {
-  id: text("id").primaryKey(),
-  orderId: text("order_id").references(() => orders.id, {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id").references(() => orders.id, {
     onDelete: "cascade",
   }),
   name: text("name"),
@@ -47,8 +48,10 @@ export const products = pgTable("products", {
   id: serial("id").primaryKey(),
 
   name: text("name").notNull(),
-  description: text("description").notNull(),
-  category: productCategoryEnum("category").notNull(),
+  category: productCategoryEnum("category"),
+
+  size: text("size"),
+  color: text("color"),
 
   price: integer("price").notNull(),
   currency: text("currency").default("usd").notNull(),
@@ -71,6 +74,11 @@ export const productImages = pgTable(
   },
   (table) => [index("product_images_product_id_idx").on(table.productId)],
 );
+
+export const tempOrders = pgTable("tempOrders", {
+  id: text("id").primaryKey().notNull(),
+  items: text("items").notNull(),
+});
 
 export const productsRelations = relations(products, ({ many }) => ({
   images: many(productImages),
