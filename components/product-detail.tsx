@@ -5,9 +5,10 @@ import { Button } from "./ui/button";
 import { useCartStore } from "@/store/cart-store";
 import { Product } from "@/lib/get-products";
 import { useEffect, useState } from "react";
-import ProductCard from "./product-card";
+import ProductCard, { colorsCode } from "./product-card";
 import Qty from "./Qty";
 import AddedModal from "./AddedModal";
+import MoreDetails from "./MoreDetails";
 
 interface Props {
   product: Product;
@@ -60,13 +61,6 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
 
   const sizeOrder = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
 
-  const colorsCode: Record<string, string> = {
-    White: "#ffffff",
-    Black: "#000000",
-    Red: "#C62A32",
-    Sky: "#8BCDEA",
-  };
-
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await fetch(`/api/printify/${product.printifyProductId}`);
@@ -92,7 +86,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
     if (
       !productData ||
       !selectedColor ||
-      !["tshirt", "hoodie"].includes(product.category)
+      !["tshirt", "hoodie"].includes(product.category as string)
     )
       return;
 
@@ -149,6 +143,8 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
     const variantId = findVariant();
     if (!variantId) return;
 
+    console.log(variantId);
+
     addItem({
       id: product.id,
       name: product.name,
@@ -159,47 +155,50 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
       size: selectedSize,
       color: selectedColor,
       variantId,
-      category: product.category,
+      category: product.category ?? "tshirt",
     });
   };
 
   return (
-    <div>
-      <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-center ">
+    <div className="">
+      <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-start ">
         {product.images[0] && (
-          <div className="relative h-150 w-full md:w-1/2 rounded-lg overflow-hidden ">
+          <div className="relative h-230 w-full md:w-1/2 rounded-lg overflow-hidden ">
             <Image
               alt={product.name}
               src={colorUrl}
               layout="fill"
               objectFit="cover"
-              className="transition duration-300 "
             />
           </div>
         )}
 
-        <div className="md:w-1/2  ">
+        <div className="md:w-1/2 pr-30 ">
           <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
-          {product.description && (
-            <p className="text-gray-700 mb-4">{product.description}</p>
-          )}
+
           {product.price && (
-            <p className="text-lg font-semibold text-gray-900">
+            <div className="text-2xl mt-6 font-semibold text-red-500">
               ${(product.price / 100).toFixed(2)} USD
-            </p>
+              <span className="text-zinc-400 text-[16px] ml-3 line-through">
+                39.90 USD
+              </span>
+              <span className=" text-white ml-3 p-1 text-[12px] bg-red-500">
+                SAVE 40%
+              </span>
+            </div>
           )}
-          <div>
+          <div className="mt-8">
             <div>
               Select color:{" "}
               <span className="font-semibold">{selectedColor}</span>
             </div>
-            <div className="flex flex-wrap max-w-120">
+            <div className="flex flex-wrap max-w-120 mt-3">
               {colors.map((c) => {
                 return (
                   <div
                     style={{ background: colorsCode[c.color] }}
-                    className={`  m-1.5  cursor-pointer p-4.5 border
-                   ${selectedColor === c.color ? "rounded-3xl border-blue-500 border-2" : "rounded-xl border-zinc-300"}`}
+                    className={`m-1.5  cursor-pointer p-4.5 border
+                   ${selectedColor === c.color ? "rounded-3xl border-blue-500 border-2" : "rounded-2xl border-zinc-300"}`}
                     key={c.color}
                     onClick={() => {
                       setSelectedColor(c.color);
@@ -210,9 +209,19 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
               })}
             </div>
           </div>
-          <div>
-            <div>Select size</div>
-            <div className="flex flex-wrap  ">
+          <div className="mt-5">
+            <div>
+              Select size{" "}
+              <a
+                className="font-semibold border-b border-zinc-900"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://images.printify.com/mockup/69e46a7be1b544748a051db9/38192/110135/arnold-predator.jpg?camera_label=size-chart&t=1776614309661&s=500"
+              >
+                Size guide
+              </a>
+            </div>
+            <div className="flex flex-wrap  mt-3">
               {sizes.map((s) => {
                 return (
                   <div
@@ -223,7 +232,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
                           : "",
                     }}
                     key={s.id}
-                    className="pr-5 pl-5 p-3 min-w-14 flex items-center justify-center
+                    className="pr-5 pl-5 p-3 min-w-14 flex items-center justify-center font-semibold
                    border-2 rounded-[10px] m-1 cursor-pointer transition-all duration-200"
                     onClick={() => setSelectedSize(s.title)}
                   >
@@ -237,7 +246,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
             )}
           </div>
 
-          <div className="flex  items-center mt-5">
+          <div className="flex  items-center mt-10">
             <Qty
               product={null}
               selectedQty={selectedQty}
@@ -245,8 +254,8 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
               checkout={false}
             />
             <Button
-              className=" bg-blue-500 p-7 text-[15px] h-10 md:text-[18px] md:w-100 md:rounded-4xl 
-             min-w-30 cursor-pointer hover:bg-blue-500/80 ml-2 "
+              className=" bg-[#3572df] p-7 text-[15px] h-10 md:text-[18px] md:w-[80%] md:rounded-4xl 
+             min-w-30 cursor-pointer hover:bg-[#3572df]/80 ml-2 "
               onClick={() => {
                 if (!selectedColor || !selectedSize) {
                   return setSizeAlert(true);
@@ -258,8 +267,10 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
               Add to Cart
             </Button>
           </div>
+          <MoreDetails />
         </div>
       </div>
+
       <div className="w-full">
         <h1 className="text-3xl font-semibold mt-5">YOU MAY ALSO LIKE</h1>
         <ul className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

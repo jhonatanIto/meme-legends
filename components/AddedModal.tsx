@@ -1,9 +1,11 @@
+import { checkoutAction } from "@/app/checkout/checkout-action";
 import { Product } from "@/lib/get-products";
 import { useCartStore } from "@/store/cart-store";
 import { Check, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Spinner from "./Spinner";
 
 interface Props {
   product: {
@@ -31,6 +33,8 @@ const AddedModal = ({
     (acc, item) => acc + item.price * item.quantity,
     0,
   );
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const closeModal = (e: MouseEvent) => {
@@ -102,14 +106,24 @@ const AddedModal = ({
               View Cart
             </button>
           </Link>
-          <Link href={"/"}>
+
+          <form action={checkoutAction} onSubmit={() => setLoading(true)}>
+            <input type="hidden" name="items" value={JSON.stringify(items)} />
             <button
-              className="text-white bg-blue-500 hover:bg-blue-500/70
+              disabled={loading}
+              className="text-white bg-[#3572df] hover:bg-[#3572df]/70 relative
              p-2.5 rounded-3xl pl-10 pr-10 cursor-pointer duration-200 transition-all font-semibold "
             >
-              Checkout
+              <span className={loading ? "opacity-0" : "opacity-100"}>
+                Checkout
+              </span>
+              {loading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Spinner />
+                </div>
+              )}
             </button>
-          </Link>
+          </form>
         </div>
 
         <div className="mt-6 text-[22px] font-semibold">YOU MAY ALSO LIKE</div>
@@ -153,8 +167,8 @@ const AddedModal = ({
                 </div>
                 <Link href={`/products/${r.id}`}>
                   <button
-                    className="text-white bg-blue-500 p-2 rounded-3xl mt-2 font-semibold
-                 pl-4 pr-4 hover:bg-blue-500/70 cursor-pointer transition-all duration-200"
+                    className="text-white bg-[#3572df] p-2 rounded-3xl mt-2 font-semibold
+                 pl-4 pr-4 hover:bg-[#3572df]/70 cursor-pointer transition-all duration-200"
                     onClick={() =>
                       setCurrentColor({
                         url: r.images[0].imageUrl,

@@ -14,11 +14,8 @@ const ProductList = ({ products }: Props) => {
   const filteredProduct = products.filter((p) => {
     const term = searchTerm.toLowerCase();
     const nameMatch = p.name.toLocaleLowerCase().includes(term);
-    const descriptionMatch = p.description
-      ? p.description.toLowerCase().includes(term)
-      : false;
 
-    return nameMatch || descriptionMatch;
+    return nameMatch;
   });
 
   return (
@@ -34,9 +31,9 @@ const ProductList = ({ products }: Props) => {
       </div>
 
       <ul className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {filteredProduct.map((p, key) => {
+        {filteredProduct.map((p) => {
           return (
-            <li key={key}>
+            <li key={p.id}>
               <ProductCard product={p} />
             </li>
           );

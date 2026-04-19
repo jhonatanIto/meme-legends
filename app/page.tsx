@@ -47,7 +47,7 @@ export default async function Home() {
             alt="Hero image"
             width={450}
             height={450}
-            src={products[1].images[0].imageUrl || ""}
+            src={products[0].images[0].imageUrl || ""}
           />
         </div>
       </section>

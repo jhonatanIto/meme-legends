@@ -35,12 +35,12 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50  shadow bg-white text-gray-700 font-semibold ">
-      <div className="container mx-auto flex items-center justify-between px-4 py-3">
-        <Link href={"/"} className=" font-bold text-2xl" onClick={getProducts}>
+      <div className="container mx-auto relative flex items-center justify-between px-4 py-3">
+        <Link href={"/"} className=" font-bold text-2xl " onClick={getProducts}>
           MEME-LEGENDS
         </Link>
 
-        <div className="hidden md:flex space-x-20">
+        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 space-x-20 ">
           <Link href={"/"} className="hover:text-blue-600">
             Home
           </Link>

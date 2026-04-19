@@ -38,6 +38,7 @@ const createPrintifyOrder = async ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        external_id: "order_" + Date.now(),
         line_items: items.map((item) => {
           if (!item.variantId) {
             throw new Error(`Missing variantId for product ${item.id}`);

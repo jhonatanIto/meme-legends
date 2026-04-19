@@ -1,10 +1,10 @@
 import CategoryList from "@/components/CategoryList";
 import ProductList from "@/components/product-list";
-import { getProduct } from "@/lib/get-products";
+import { type Category, getProduct } from "@/lib/get-products";
 
 interface Props {
   params: {
-    category: string;
+    category: Category;
   };
 }
 

@@ -12,6 +12,15 @@ interface Props {
   product: Product;
 }
 
+export const colorsCode: Record<string, string> = {
+  White: "rgb(255, 255, 255)",
+  Black: "rgb(0, 0, 0)",
+  "Sport Grey": "rgb(152, 152, 152)",
+  "Heather Indigo": "rgba(98, 110, 132)",
+  "Antique Cherry Red": "rgba(147, 41, 55)",
+  "Dark Heather": "rgba(68, 68, 70)",
+};
+
 const ProductCard = ({ product }: Props) => {
   const price = product.price;
   const [currentUrl, setCurrentUrl] = useState(product.images[0].imageUrl);
@@ -30,13 +39,13 @@ const ProductCard = ({ product }: Props) => {
       >
         <Card className="group hover:shadow-2xl transition duration-300 py-0 h-full flex flex-col border-gray-300 gap-0 ">
           {product.images[0] && (
-            <div className="relative h-110 w-full">
+            <div className="relative h-110 w-full ">
               <Image
                 alt={product.name}
                 src={currentUrl}
                 layout="fill"
                 objectFit="cover"
-                className="group-hover:opacity-90 transition-opacity duration-300 rounded-t-lg "
+                className="group-hover:scale-210 object-cover transition-transform ease-out  duration-300 rounded-t-lg "
               />
             </div>
           )}
@@ -48,8 +57,9 @@ const ProductCard = ({ product }: Props) => {
           {product.name}
         </CardTitle>
         <CardContent className=" grow flex flex-col justify-between items-center">
-          <p className="text-[17px] text-gray-800">
-            ${(price / 100).toFixed(2)}
+          <p className="text-[17px] text-red-500  w-[62%] flex justify-around ">
+            ${(price / 100).toFixed(2)}USD
+            <span className="text-zinc-500 line-through">$39.90 USD</span>
           </p>
           <div className="flex mt-3 ">
             {product.images.map((i) => (
@@ -59,7 +69,9 @@ const ProductCard = ({ product }: Props) => {
               ${selColor === i.color ? "border-blue-400 " : "border-transparent"}`}
               >
                 <div
-                  style={{ backgroundColor: i.color }}
+                  style={{
+                    backgroundColor: colorsCode[i.color] ?? "#ccc",
+                  }}
                   className={`rounded-full w-4.5 h-4.5 border border-zinc-400  m-0.75 cursor-pointer 
                    `}
                   onClick={() => {

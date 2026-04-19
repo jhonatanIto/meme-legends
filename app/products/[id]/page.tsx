@@ -10,12 +10,13 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
     return <div>Not Found</div>;
   }
 
-  const recomendedList = await getProduct(product.category);
+  const List = await getProduct(product.category ?? undefined);
+  const recomendedList = List.filter((l) => l.id !== Number(id));
 
   return (
     <ProductDetail
       product={product}
-      recomendedList={recomendedList.slice(0, 3)}
+      recomendedList={recomendedList.slice(0, 4)}
       colors={product.images}
     />
   );

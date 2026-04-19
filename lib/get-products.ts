@@ -6,12 +6,11 @@ import { unstable_cache } from "next/cache";
 export type Product = {
   id: number;
   name: string;
-  description: string;
-  category: Category;
+  category: Category | null;
   price: number;
   currency: string;
   images: Product_Images[];
-  size?: string;
+  size?: string | null;
   active: boolean;
   createdAt: Date;
   printifyProductId: string;
@@ -24,7 +23,7 @@ type Product_Images = {
   productId: number;
 };
 
-type Category = (typeof productCategoryEnum.enumValues)[number];
+export type Category = (typeof productCategoryEnum.enumValues)[number];
 
 const getProductsList = unstable_cache(
   async () => {
