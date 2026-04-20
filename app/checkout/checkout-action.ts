@@ -7,8 +7,16 @@ import { CartItem } from "@/store/cart-store";
 import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 import { tempOrders } from "../db/schema";
+import { headers } from "next/headers";
 
 export const checkoutAction = async (formData: FormData): Promise<void> => {
+  const headersList = await headers();
+  const forwarded = headersList.get("x-forwarded-for");
+
+  const ip = forwarded
+    ? forwarded.split(",")[0].trim()
+    : headersList.get("x-real-ip") || "unknown";
+
   const itemsJson = formData.get("items") as string;
   const items = JSON.parse(itemsJson);
 
@@ -42,6 +50,20 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
     .insert(tempOrders)
     .values({ id: orderId, items: JSON.stringify(items) });
 
+  let country = "US";
+  let shippingAmount = 500;
+
+  try {
+    const res = await fetch(`https://ipapi.co/${ip}/json/`);
+    const data = await res.json();
+    country = data.country_code;
+
+    shippingAmount = country === "US" ? 500 : 700;
+  } catch (error) {
+    console.error(error);
+    shippingAmount = 500;
+  }
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items,
@@ -72,7 +94,7 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
         shipping_rate_data: {
           type: "fixed_amount",
           fixed_amount: {
-            amount: 500,
+            amount: shippingAmount,
             currency: "usd",
           },
           display_name: "Standard Shipping",

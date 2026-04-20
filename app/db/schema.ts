@@ -12,21 +12,20 @@ import {
 import { relations } from "drizzle-orm";
 
 export const orderStatusEnum = pgEnum("order_status", [
-  "pending",
-  "processing",
-  "completed",
+  "payment_pending",
+  "paid",
+  "printify_created",
+  "in_production",
+  "shipped",
+  "delivered",
   "failed",
 ]);
 
 export const productCategoryEnum = pgEnum("product_category", [
-  "tshirt",
-  "mug",
-  "hoodie",
-  "phonecase",
-  "notebook",
-  "mousepad",
-  "pillow",
-  "underwear",
+  "movies",
+  "celebrities",
+  "cats",
+  "darkhumor",
 ]);
 
 export const orders = pgTable("orders", {
@@ -39,7 +38,7 @@ export const orders = pgTable("orders", {
 
   stripeSessionId: text("stripe_session_id").unique(),
 
-  status: orderStatusEnum("status").default("pending").notNull(),
+  status: orderStatusEnum("status").default("payment_pending").notNull(),
 
   printifyOrderId: text(),
 

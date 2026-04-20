@@ -14,14 +14,10 @@ const Category = async ({ params }: Props) => {
   const products = await getProduct(category);
 
   const titles: Record<string, string> = {
-    tshirt: "T-SHIRTS",
-    mug: "MUGS",
-    hoodie: "HOODIES",
-    phonecase: "PHONE CASES",
-    notebook: "NOTEBOOKS",
-    mousepad: "MOUSEPADS",
-    pillow: "PILLOWS",
-    underwear: "UNDERWEARS  ",
+    movies: "MOVIES",
+    celebrities: "CELEBRITIES",
+    cats: "CATS",
+    darkhumor: "DARK HUMOR",
   };
 
   return (

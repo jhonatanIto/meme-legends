@@ -9,15 +9,11 @@ const CategoryList = () => {
   const [showOptions, setShowOptions] = useState(false);
   const buttRef = useRef<HTMLDivElement>(null);
   const options = [
-    { name: "All Products", url: "" },
-    { name: "T-Shirt", url: "category/tshirt" },
-    { name: "Hoodie", url: "category/hoodie" },
-    { name: "Mug", url: "category/mug" },
-    { name: "Phone case", url: "category/phonecase" },
-    { name: "Notebook", url: "category/notebook" },
-    { name: "Mouse Pad", url: "category/mousepad" },
-    { name: "Pillow", url: "category/pillow" },
-    { name: "Underwear", url: "category/underwear" },
+    { name: "All", url: "" },
+    { name: "MOVIES", url: "category/movies" },
+    { name: "CELEBRITIES", url: "category/celebrities" },
+    { name: "CATS", url: "category/cats" },
+    { name: "DARK HUMOR", url: "category/darkhumor" },
   ];
 
   useEffect(() => {

@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
             name: session.customer_details?.name || "",
             total: session.amount_total || 0,
             stripeSessionId: session.id,
-            status: "processing",
+            status: "paid",
           })
           .returning();
 
@@ -119,6 +119,12 @@ export async function POST(req: NextRequest) {
           },
         },
       );
+
+      await orderQueue.add("send-order-confirmation-email", {
+        email: customer?.email,
+        name: customer?.name,
+        orderId: createdOrderId,
+      });
 
       break;
     }

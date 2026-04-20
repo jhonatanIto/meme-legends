@@ -12,7 +12,10 @@ new Worker(
 
     await db
       .update(orders)
-      .set({ status: "processing", attempts: sql`${orders.attempts} + 1` })
+      .set({
+        status: "printify_created",
+        attempts: sql`${orders.attempts} + 1`,
+      })
       .where(eq(orders.id, orderId));
 
     try {
@@ -25,7 +28,7 @@ new Worker(
       await db
         .update(orders)
         .set({
-          status: "completed",
+          status: "in_production",
           printifyOrderId: printifyOrder?.id,
           lastError: null,
         })

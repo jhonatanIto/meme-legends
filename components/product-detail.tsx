@@ -59,14 +59,18 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
   const [addedCart, setAddedCart] = useState(false);
   const [productData, setProductData] = useState<DataApi>();
 
-  const sizeOrder = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
+  const sizeOrder = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"];
 
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await fetch(`/api/printify/${product.printifyProductId}`);
       const data: DataApi = await res.json();
 
-      setSizes(data.options[1]?.values || data.options[0]?.values);
+      const filteredSizes = (
+        data.options[1].values || data.options[0]?.values
+      ).filter((s) => s.title !== "5XL");
+
+      setSizes(filteredSizes);
 
       setProductData(data);
 
@@ -83,12 +87,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
   }, [product.printifyProductId]);
 
   useEffect(() => {
-    if (
-      !productData ||
-      !selectedColor ||
-      !["tshirt", "hoodie"].includes(product.category as string)
-    )
-      return;
+    if (!productData || !selectedColor) return;
 
     const filteredVariants = productData.variants.filter(
       (v) => v.is_enabled && v.title.split("/")[0].trim() === selectedColor,
@@ -98,14 +97,12 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
       v.title.split("/")[1].trim(),
     );
 
-    const uniqueSizes = [...new Set(availableSizes)];
-
-    const sortedSizes = uniqueSizes.sort(
-      (a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b),
-    );
+    const uniqueSizes = [...new Set(availableSizes)]
+      .filter((s) => s !== "5XL")
+      .sort((a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b));
 
     setSizes(
-      sortedSizes.map((size, index) => ({
+      uniqueSizes.map((size, index) => ({
         id: index,
         title: size,
       })),
@@ -117,14 +114,12 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
 
   const findVariant = () => {
     if (!productData) return null;
-    let va;
-    if (product.category === "tshirt" || product.category === "hoodie") {
-      va = productData?.variants.find(
-        (v) => v.title.trim() === `${selectedColor} / ${selectedSize}`.trim(),
-      );
-    } else {
-      va = productData.variants.find((v) => v.title.trim() === selectedSize);
-    }
+
+    const va = productData?.variants.find(
+      (v) =>
+        v.is_enabled &&
+        v.title.trim() === `${selectedColor} / ${selectedSize}`.trim(),
+    );
 
     if (!va) {
       console.error("Variant not found", {
@@ -155,7 +150,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
       size: selectedSize,
       color: selectedColor,
       variantId,
-      category: product.category ?? "tshirt",
+      category: product.category ?? "movies",
     });
   };
 
@@ -167,8 +162,8 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
             <Image
               alt={product.name}
               src={colorUrl}
-              layout="fill"
-              objectFit="cover"
+              fill
+              className="object-cover"
             />
           </div>
         )}
