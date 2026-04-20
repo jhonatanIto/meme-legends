@@ -6,13 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "worker": "ts-node worker/order-worker.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "bullmq": "^5.74.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",
+    "ioredis": "^5.10.1",
     "lucide-react": "^1.7.0",
     "next": "16.2.1",
     "pg": "^8.20.0",

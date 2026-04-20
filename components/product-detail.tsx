@@ -182,7 +182,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
               <span className="text-zinc-400 text-[16px] ml-3 line-through">
                 39.90 USD
               </span>
-              <span className=" text-white ml-3 p-1 text-[12px] bg-red-500">
+              <span className=" text-white ml-3 p-1 text-[12px] bg-red-600">
                 SAVE 40%
               </span>
             </div>

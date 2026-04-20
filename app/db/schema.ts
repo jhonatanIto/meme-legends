@@ -11,6 +11,13 @@ import {
 
 import { relations } from "drizzle-orm";
 
+export const orderStatusEnum = pgEnum("order_status", [
+  "pending",
+  "processing",
+  "completed",
+  "failed",
+]);
+
 export const productCategoryEnum = pgEnum("product_category", [
   "tshirt",
   "mug",
@@ -24,12 +31,23 @@ export const productCategoryEnum = pgEnum("product_category", [
 
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
-  email: text("email"),
-  name: text("name"),
-  total: integer("total"),
-  stripeSessionId: text("stripe_session_id"),
-  status: text("status"),
-  created_at: timestamp("created_at").defaultNow(),
+
+  email: text("email").notNull(),
+  name: text("name").notNull(),
+
+  total: integer("total").notNull(),
+
+  stripeSessionId: text("stripe_session_id").unique(),
+
+  status: orderStatusEnum("status").default("pending").notNull(),
+
+  printifyOrderId: text(),
+
+  attempts: integer().default(0).notNull(),
+
+  lastError: text(),
+
+  created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const orderItems = pgTable("order_items", {

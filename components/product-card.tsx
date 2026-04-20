@@ -57,7 +57,7 @@ const ProductCard = ({ product }: Props) => {
           {product.name}
         </CardTitle>
         <CardContent className=" grow flex flex-col justify-between items-center">
-          <p className="text-[17px] text-red-500  w-[62%] flex justify-around ">
+          <p className="text-[15px] text-red-500  w-[62%] flex justify-around ">
             ${(price / 100).toFixed(2)}USD
             <span className="text-zinc-500 line-through">$39.90 USD</span>
           </p>

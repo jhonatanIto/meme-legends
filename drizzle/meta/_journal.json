@@ -78,6 +78,13 @@
       "when": 1776222383669,
       "tag": "0010_next_wallop",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1776664014925,
+      "tag": "0011_bumpy_greymalkin",
+      "breakpoints": true
     }
   ]
 }
