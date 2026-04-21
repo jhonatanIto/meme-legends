@@ -38,7 +38,7 @@ const SomethingElse = () => {
         <Upload size={16} />
         <span className="ml-3">Upload attachment (optional)</span>
       </div>
-      <ButtonSubmit />
+      <ButtonSubmit message={"Submit message"} />
     </form>
   );
 };

@@ -1,7 +1,11 @@
 import { useFormStatus } from "react-dom";
 import Spinner from "./Spinner";
 
-const ButtonSubmit = () => {
+interface Props {
+  message: string;
+}
+
+const ButtonSubmit = ({ message }: Props) => {
   const { pending } = useFormStatus();
   return (
     <button
@@ -10,7 +14,7 @@ const ButtonSubmit = () => {
          text-white bg-[#3572df] rounded-4xl mt-5 cursor-pointer"
       disabled={pending}
     >
-      {pending ? <Spinner /> : "Submit message"}
+      {pending ? <Spinner /> : message}
     </button>
   );
 };

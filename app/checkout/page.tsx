@@ -7,6 +7,7 @@ import Image from "next/image";
 import Qty from "@/components/util/Qty";
 import { useState } from "react";
 import { X } from "lucide-react";
+import ButtonSubmit from "@/components/util/button-submit";
 
 export default function CheckoutPage() {
   const { items, removeItem } = useCartStore();
@@ -98,14 +99,7 @@ export default function CheckoutPage() {
       </div>
       <form action={checkoutAction} className="max-w-md mx-auto">
         <input type="hidden" name="items" value={JSON.stringify(items)} />
-        <Button
-          type="submit"
-          variant="default"
-          className="w-full bg-blue-500 cursor-pointer"
-        >
-          {" "}
-          Proceed to Payment
-        </Button>
+        <ButtonSubmit message={"Proceed to Payment"} />
       </form>
     </div>
   );
