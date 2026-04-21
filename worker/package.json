@@ -1,0 +1,12 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "tsx start-workers.ts"
+  },
+  "dependencies": {
+    "bullmq": "^5",
+    "ioredis": "^5",
+    "tsx": "^4"
+  }
+}
