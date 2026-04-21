@@ -155,10 +155,10 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
   };
 
   return (
-    <div className="">
-      <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-start ">
+    <div>
+      <div className="container mx-auto px-4  flex flex-col md:flex-row gap-8 items-start ">
         {product.images[0] && (
-          <div className="relative md:h-230 h-85 w-full md:w-1/2 rounded-lg overflow-hidden ">
+          <div className="relative md:h-230 h-85 w-full md:w-1/2 rounded-lg overflow-hidden  ">
             <Image
               alt={product.name}
               src={colorUrl}
