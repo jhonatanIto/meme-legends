@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart-store";
 import { checkoutAction } from "./checkout-action";
 import Image from "next/image";
@@ -25,7 +24,6 @@ export default function CheckoutPage() {
       </div>
     );
   }
-  console.log(items);
 
   return (
     <div className="container mx-auto px-50 py-8 ">
