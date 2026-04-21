@@ -49,5 +49,6 @@ new Worker(
   },
   {
     connection,
+    concurrency: 5,
   },
 );

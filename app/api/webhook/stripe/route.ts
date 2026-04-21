@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
         await tx.delete(tempOrders).where(eq(tempOrders.id, orderId));
       });
 
-      console.log("Order processed:", createdOrderId);
+      console.log("Order enqueued:", { orderId: createdOrderId });
 
       await orderQueue.add(
         "create-order",
@@ -120,11 +120,21 @@ export async function POST(req: NextRequest) {
         },
       );
 
-      await orderQueue.add("send-order-confirmation-email", {
-        email: customer?.email,
-        name: customer?.name,
-        orderId: createdOrderId,
-      });
+      await orderQueue.add(
+        "send-order-confirmation-email",
+        {
+          email: customer?.email,
+          name: customer?.name,
+          orderId: createdOrderId,
+        },
+        {
+          attempts: 3,
+          backoff: {
+            type: "exponential",
+            delay: 30000,
+          },
+        },
+      );
 
       break;
     }

@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } },
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
+
   const SHOP_ID = process.env.PRINTIFY_SHOP_ID!;
   const API_TOKEN = process.env.PRINTIFY_API_TOKEN!;
-  console.log("PARAM ID:", id);
 
   try {
     const res = await fetch(
@@ -23,6 +23,6 @@ export async function GET(
 
     return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error: "Failed" }, { status: 500 });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
