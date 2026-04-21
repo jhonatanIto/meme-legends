@@ -6,7 +6,7 @@ import { useCartStore } from "@/store/cart-store";
 import { Product } from "@/lib/get-products";
 import { useEffect, useState } from "react";
 import ProductCard, { colorsCode } from "./product-card";
-import Qty from "./Qty";
+import Qty from "./util/Qty";
 import AddedModal from "./AddedModal";
 import MoreDetails from "./MoreDetails";
 

@@ -5,7 +5,7 @@ import { Check, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import Spinner from "./Spinner";
+import Spinner from "./util/Spinner";
 
 interface Props {
   product: {

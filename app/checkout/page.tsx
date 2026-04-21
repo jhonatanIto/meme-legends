@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart-store";
 import { checkoutAction } from "./checkout-action";
 import Image from "next/image";
-import Qty from "@/components/Qty";
+import Qty from "@/components/util/Qty";
 import { useState } from "react";
 import { X } from "lucide-react";
 

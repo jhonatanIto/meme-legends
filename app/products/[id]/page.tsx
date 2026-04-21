@@ -11,7 +11,9 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   const List = await getProduct(product.category ?? undefined);
-  const recomendedList = List.filter((l) => l.id !== Number(id));
+  const recomendedList = List.filter((l) => l.id !== Number(id)).filter(
+    (c) => c.category === product.category,
+  );
 
   return (
     <ProductDetail

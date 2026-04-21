@@ -1,3 +1,5 @@
+"use server";
+
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -53,5 +55,24 @@ export const sendOrderConfirmationEmail = async ({
         <p>We are now preparing your items.</p>
       </div>
     `,
+  });
+};
+
+export const receiveIssueMessage = async (formData: FormData) => {
+  const email = formData.get("email") as string;
+  const name = formData.get("name") as string;
+  const message = formData.get("message") as string;
+  console.log("entrou aqui");
+
+  if (!email || !name || !message) {
+    throw new Error("Missing fields");
+  }
+
+  await resend.emails.send({
+    from: "Your Store <onboarding@resend.dev>",
+    replyTo: email,
+    to: "jhonatan-ito@hotmail.com",
+    subject: `Issue for the user ${name}`,
+    html: `<div>${message}</div>`,
   });
 };
