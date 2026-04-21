@@ -3,6 +3,7 @@
 import { Product } from "@/lib/get-products";
 import ProductCard from "./product-card";
 import { useState } from "react";
+import CategoryList from "./CategoryList";
 
 interface Props {
   products: Product[];
@@ -20,17 +21,19 @@ const ProductList = ({ products }: Props) => {
 
   return (
     <div>
-      <div className="mb-6 flex justify-center">
+      <div className="flex justify-start relative  ">
+        <CategoryList />
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
-          placeholder="Search products..."
-          className="w-full max-w-md rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="What are you looking for?"
+          className=" md:w-full w-[60%] max-w-md rounded border border-gray-300 px-3 py-2 focus:outline-none 
+           absolute left-5/7 md:left-1/2 -translate-x-1/2 "
         />
       </div>
 
-      <ul className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-16 grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {filteredProduct.map((p) => {
           return (
             <li key={p.id}>

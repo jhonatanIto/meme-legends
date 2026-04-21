@@ -158,17 +158,17 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
     <div className="">
       <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-start ">
         {product.images[0] && (
-          <div className="relative h-230 w-full md:w-1/2 rounded-lg overflow-hidden ">
+          <div className="relative md:h-230 h-85 w-full md:w-1/2 rounded-lg overflow-hidden ">
             <Image
               alt={product.name}
               src={colorUrl}
               fill
-              className="object-cover"
+              className="object-cover scale-120 md:scale-100"
             />
           </div>
         )}
 
-        <div className="md:w-1/2 pr-30 ">
+        <div className="md:w-1/2 md:pr-30 ">
           <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
 
           {product.price && (
@@ -249,7 +249,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
               checkout={false}
             />
             <Button
-              className=" bg-[#3572df] p-7 text-[15px] h-10 md:text-[18px] md:w-[80%] md:rounded-4xl 
+              className=" bg-[#3572df] p-7 text-[15px] h-10 md:text-[18px] md:w-[80%] w-[70%] md:rounded-4xl 
              min-w-30 cursor-pointer hover:bg-[#3572df]/80 ml-2 "
               onClick={() => {
                 if (!selectedColor || !selectedSize) {
@@ -268,7 +268,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
 
       <div className="w-full">
         <h1 className="text-3xl font-semibold mt-5">YOU MAY ALSO LIKE</h1>
-        <ul className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {recomendedList.map((r) => (
             <li key={r.id}>
               <ProductCard product={r} />

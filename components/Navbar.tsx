@@ -1,16 +1,13 @@
 "use client";
 
 import { useCartStore } from "@/store/cart-store";
-import {
-  ShoppingCartIcon,
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/solid";
+import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 
 import Link from "next/link";
 
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { TextAlignJustify, X } from "lucide-react";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
@@ -27,16 +24,16 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const getProducts = async () => {
-    const res = await fetch("/api/printify");
-    const data = await res.json();
-    console.log(data.data);
-  };
+  // const getProducts = async () => {
+  //   const res = await fetch("/api/printify");
+  //   const data = await res.json();
+  //   console.log(data.data);
+  // };
 
   return (
     <nav className="sticky top-0 z-50  shadow bg-white text-gray-700 font-semibold ">
       <div className="container mx-auto relative flex items-center justify-between px-4 py-3">
-        <Link href={"/"} className=" font-bold text-2xl " onClick={getProducts}>
+        <Link href={"/"} className=" font-bold text-2xl ">
           MEME-LEGENDS
         </Link>
 
@@ -63,34 +60,32 @@ const Navbar = () => {
           </Link>
           <Button
             variant="ghost"
-            className="md:hidden"
+            className="md:hidden "
             onClick={() => setMobileOpen((prev) => !prev)}
           >
             {mobileOpen ? (
-              <XMarkIcon className="h-6 w-6" />
+              <X className="h-12 w-12  " />
             ) : (
-              <Bars3Icon className="h-6 w-6" />
+              <TextAlignJustify className="h-12 w-12" />
             )}
           </Button>
         </div>
       </div>
       {mobileOpen && (
         <nav className="md:hidden bg-white shadow-md">
-          <ul className="flex flex-col p-4 space-y-2">
-            <li>
-              <Link href={"/"} className="block hover:text-blue-600">
-                {" "}
-                Home{" "}
-              </Link>
-              <Link href={"/products"} className="block hover:text-blue-600">
-                {" "}
-                Products{" "}
-              </Link>
-              <Link href={"/"} className="block hover:text-blue-600">
-                {" "}
-                Checkout{" "}
-              </Link>
-            </li>
+          <ul className="flex  p-4 space-y-2">
+            <Link href={"/"} className="block hover:text-blue-600">
+              {" "}
+              Home{" "}
+            </Link>
+            <Link href={"/products"} className="block hover:text-blue-600 ml-5">
+              {" "}
+              Products{" "}
+            </Link>
+            <Link href={"/"} className="block hover:text-blue-600 ml-5">
+              {" "}
+              Checkout{" "}
+            </Link>
           </ul>
         </nav>
       )}

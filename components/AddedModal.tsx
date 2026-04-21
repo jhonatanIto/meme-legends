@@ -50,21 +50,36 @@ const AddedModal = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (addedCart) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [addedCart]);
+
   return (
     <div
       className={`${addedCart ? "pointer-events-auto" : "opacity-0 pointer-events-none"} fixed 
-      inset-0 flex justify-end items-center bg-white/80 z-50  transition-all duration-200 ease-in-out`}
+      inset-0 flex justify-end items-center bg-zinc-100/80 z-50  transition-all duration-200 ease-in-out`}
     >
       <div
         ref={boxRef}
-        className={` h-full text-zinc-800 pr-20 bg-white  transition-all duration-400 ease-in-out
+        className={` h-full w-full md:w-fit text-zinc-800 md:pr-20 md:pl-5 px-3 bg-white  transition-all duration-400 ease-in-out overflow-y-auto
            ${addedCart ? "translate-x-0  pointer-events-auto" : "translate-x-60 md:translate-x-200 opacity-0 pointer-events-none"}`}
       >
-        <div className="flex items-center mt-15 ">
-          <Check size={30} className="text-4xl" />{" "}
-          <p className="ml-1 text-[22px] font-semibold tracking-tight">
-            ADDED TO CART
-          </p>{" "}
+        <div className="flex items-center mt-15 justify-between ">
+          <div className="flex">
+            <Check size={30} className="text-4xl" />{" "}
+            <p className="ml-1 text-[22px] font-semibold tracking-tight">
+              ADDED TO CART
+            </p>{" "}
+          </div>
+
           <X
             size={40}
             className="ml-20 text-zinc-600 cursor-pointer"

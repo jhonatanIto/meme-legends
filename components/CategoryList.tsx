@@ -30,9 +30,9 @@ const CategoryList = () => {
   }, []);
 
   return (
-    <div ref={buttRef} className="absolute select-none ">
+    <div ref={buttRef} className="select-none">
       <Button
-        className="absolute border w-34 cursor-pointer flex justify-center"
+        className="absolute border md:w-34  cursor-pointer flex justify-center"
         onClick={() => setShowOptions((prev) => !prev)}
       >
         Category <ChevronDown className="ml-2" />
