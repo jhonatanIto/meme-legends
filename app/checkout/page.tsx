@@ -6,11 +6,12 @@ import Image from "next/image";
 import Qty from "@/components/util/Qty";
 import { useState } from "react";
 import { X } from "lucide-react";
-import ButtonSubmit from "@/components/util/button-submit";
+import Spinner from "@/components/util/Spinner";
 
 export default function CheckoutPage() {
   const { items, removeItem } = useCartStore();
   const [selectedQty, setSelectedQty] = useState(1);
+  const [loading, setLoading] = useState(false);
   const total = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0,
@@ -95,9 +96,19 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
-      <form action={checkoutAction} className="max-w-md mx-auto">
+      <form
+        action={checkoutAction}
+        onSubmit={() => setLoading(true)}
+        className="max-w-md mx-auto"
+      >
         <input type="hidden" name="items" value={JSON.stringify(items)} />
-        <ButtonSubmit message={"Proceed to Payment"} />
+        <button
+          type="submit"
+          className="w-full flex items-center justify-center h-12  font-semibold
+         text-white bg-[#3572df] rounded-4xl mt-5 cursor-pointer"
+        >
+          {loading ? <Spinner /> : "Proceed to Payment"}
+        </button>
       </form>
     </div>
   );
