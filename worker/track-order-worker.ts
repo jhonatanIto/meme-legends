@@ -1,9 +1,9 @@
 import { Worker } from "bullmq";
-import { connection } from "@/lib/redis";
-import { db } from "@/lib/db";
-import { orders } from "@/app/db/schema";
+import { connection } from "../lib/redis";
+import { db } from "../lib/db";
+import { orders } from "../app/db/schema";
 import { eq } from "drizzle-orm";
-import { sendShippingEmail } from "@/lib/email";
+import { sendShippingEmail } from "../lib/email";
 
 new Worker(
   "printify-track-order",

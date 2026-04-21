@@ -1,8 +1,8 @@
 import { Worker } from "bullmq";
-import { connection } from "@/lib/redis";
-import { createPrintifyOrder } from "@/lib/printify";
-import { db } from "@/lib/db";
-import { orders } from "@/app/db/schema";
+import { connection } from "../lib/redis";
+import { createPrintifyOrder } from "../lib/printify";
+import { db } from "../lib/db";
+import { orders } from "../app/db/schema";
 import { eq, sql } from "drizzle-orm";
 
 new Worker(

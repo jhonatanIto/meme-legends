@@ -1,6 +1,6 @@
 import { Worker } from "bullmq";
-import { connection } from "@/lib/redis";
-import { sendOrderConfirmationEmail } from "@/lib/email";
+import { connection } from "../lib/redis";
+import { sendOrderConfirmationEmail } from "../lib/email";
 
 new Worker(
   "order-queue",
