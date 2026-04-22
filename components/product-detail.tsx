@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { useCartStore } from "@/store/cart-store";
 import { Product } from "@/lib/get-products";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProductCard, { colorsCode } from "./product-card";
 import Qty from "./util/Qty";
 import AddedModal from "./AddedModal";
@@ -14,7 +14,13 @@ import Spinner from "./util/Spinner";
 interface Props {
   product: Product;
   recomendedList: Product[];
-  colors: { id: number; color: string; imageUrl: string }[];
+  colors: Colors[];
+}
+
+interface Colors {
+  id: number;
+  color: string;
+  imageUrl: string;
 }
 
 interface Size {
@@ -23,14 +29,12 @@ interface Size {
 }
 
 export interface DataApi {
-  options: { values: Size[] }[];
+  options: { values: Size[]; name: string }[];
   variants: { is_enabled: boolean; title: string; id: number }[];
 }
 
 export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
-  const { items, addItem, currentColor } = useCartStore();
-  const cartItem = items.find((item) => item.id === product.id);
-  const quantity = cartItem ? cartItem.quantity : 0;
+  const { addItem, currentColor } = useCartStore();
   const [colorUrl, setColorUrl] = useState(
     currentColor.url || product.images[0].imageUrl || "",
   );
@@ -39,14 +43,14 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
   );
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedQty, setSelectedQty] = useState(1);
-  const [enabledColor, setEnabledColor] = useState<string[]>([]);
-  const [sizes, setSizes] = useState<Size[]>([]);
   const [sizeAlert, setSizeAlert] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
   const [productData, setProductData] = useState<DataApi>();
   const [loading, setLoading] = useState(false);
 
   const sizeOrder = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"];
+
+  console.log(productData);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -55,21 +59,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
         const res = await fetch(`/api/printify/${product.printifyProductId}`);
         const data: DataApi = await res.json();
 
-        const filteredSizes = (
-          data.options[1].values || data.options[0]?.values
-        ).filter((s) => s.title !== "5XL");
-
-        setSizes(filteredSizes);
-
         setProductData(data);
-
-        const enabledVariants = data.variants.filter((v) => v.is_enabled) ?? [];
-
-        const uniqueColors = [
-          ...new Set(enabledVariants.map((v) => v.title.split("/")[0].trim())),
-        ];
-
-        setEnabledColor(uniqueColors);
       } catch (error) {
         console.error(error);
       } finally {
@@ -80,50 +70,51 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
     fetchProduct();
   }, [product.printifyProductId]);
 
-  useEffect(() => {
-    if (!productData || !selectedColor) return;
+  const getColorSize = (title: string) => {
+    const [left, right] = title.split("/").map((s) => s.trim());
 
-    const filteredVariants = productData.variants.filter(
-      (v) => v.is_enabled && v.title.split("/")[0].trim() === selectedColor,
-    );
+    const isSize = sizeOrder.includes(left);
 
-    const availableSizes = filteredVariants.map((v) =>
-      v.title.split("/")[1].trim(),
-    );
+    return {
+      color: isSize ? right : left,
+      size: isSize ? left : right,
+    };
+  };
+
+  const sizes = useMemo(() => {
+    if (!productData || !selectedColor) return [];
+
+    const filteredVariants = productData.variants.filter((v) => {
+      if (!v.is_enabled) return false;
+
+      const { color } = getColorSize(v.title);
+      return color === selectedColor;
+    });
+
+    const availableSizes = filteredVariants.map((v) => {
+      const { size } = getColorSize(v.title);
+      return size;
+    });
 
     const uniqueSizes = [...new Set(availableSizes)]
       .filter((s) => s !== "5XL")
       .sort((a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b));
 
-    setSizes(
-      uniqueSizes.map((size, index) => ({
-        id: index,
-        title: size,
-      })),
-    );
-
-    setSelectedSize("");
-    setSizeAlert(false);
-  }, [selectedColor, productData]);
+    return uniqueSizes.map((size, index) => ({
+      id: index,
+      title: size,
+    }));
+  }, [productData, selectedColor]);
 
   const findVariant = () => {
     if (!productData) return null;
 
-    const va = productData?.variants.find(
-      (v) =>
-        v.is_enabled &&
-        v.title.trim() === `${selectedColor} / ${selectedSize}`.trim(),
-    );
+    return productData?.variants.find((v) => {
+      if (!v.is_enabled) return false;
+      const { color, size } = getColorSize(v.title);
 
-    if (!va) {
-      console.error("Variant not found", {
-        selectedColor,
-        selectedSize,
-      });
-      return null;
-    }
-
-    return va.id;
+      return color === selectedColor && size === selectedSize;
+    })?.id;
   };
 
   const onAddItem = () => {
@@ -131,8 +122,6 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
 
     const variantId = findVariant();
     if (!variantId) return;
-
-    console.log(variantId);
 
     addItem({
       id: product.id,
@@ -157,7 +146,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
               alt={product.name}
               src={colorUrl}
               fill
-              className="object-cover scale-120 md:scale-100"
+              className={`object-cover scale-120  md:scale-100`}
             />
           </div>
         )}
@@ -211,11 +200,11 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
               </a>
             </div>
             <div className="flex flex-wrap  mt-3 relative min-h-20">
-              {loading || sizes.length === 0 ? (
+              {loading ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Spinner color="black" />
                 </div>
-              ) : (
+              ) : sizes.length > 0 ? (
                 sizes.map((s) => {
                   return (
                     <div
@@ -234,6 +223,8 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
                     </div>
                   );
                 })
+              ) : (
+                "out of stock"
               )}
             </div>
             {sizeAlert && !selectedSize && (

@@ -47,7 +47,8 @@ const ProductCard = ({ product }: Props) => {
                 src={currentUrl}
                 fill
                 objectFit="cover"
-                className="md:group-hover:scale-220 group-hover:scale-180 scale-120 md:scale-110 object-cover transition-transform ease-out  duration-300 rounded-t-lg "
+                className={`md:group-hover:scale-220 group-hover:scale-180 scale-120 ${product.type === "tshirts" ? "md:scale-110" : "md:scale-95"}
+                    object-cover transition-transform ease-out  duration-300 rounded-t-lg `}
               />
             </div>
           )}
