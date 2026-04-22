@@ -31,10 +31,16 @@ const Qty = ({ setSelectedQty, selectedQty, product, checkout }: Props) => {
   }, []);
 
   return (
-    <div ref={qtyRef} className="relative">
+    <div ref={qtyRef} className="relative inline-block">
       <button
-        className="border-2 p-4 pl-3 pr-3 w-20 h-fit flex justify-around rounded-xl 
-          cursor-pointer"
+        className="       border-2 border-zinc-300
+        px-2 py-1
+        md:px-4 md:py-2
+        w-16 md:w-20
+        flex items-center justify-between
+        rounded-lg
+        text-sm md:text-base
+        cursor-pointer"
         onClick={() => setShowQuantity((prev) => !prev)}
       >
         {selectedQty} <ChevronDown className="text-zinc-400" />

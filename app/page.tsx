@@ -8,7 +8,7 @@ import Link from "next/link";
 export default async function Home() {
   const products = await getProduct();
 
-  const arrivals = products.slice(0, 4);
+  const arrivals = products.slice(-4);
 
   return (
     <div>
