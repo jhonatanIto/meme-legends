@@ -13,7 +13,7 @@ const CategoryPage = async ({ type, category }: Props) => {
     movies: "MOVIES",
     celebrities: "CELEBRITIES",
     cats: "CATS",
-    animations: "ANIMATION",
+    animation: "ANIMATION",
     darkhumor: "DARK HUMOR",
   };
 

@@ -60,6 +60,13 @@ export default function CheckoutPage() {
                     {item.name}
                   </span>
                   <span className=" text-gray-500">
+                    {item.type === "tshirts"
+                      ? "T-Shirt"
+                      : item.type === "sweatshirt"
+                        ? "Sweatshirt"
+                        : "Hoodie"}
+                  </span>
+                  <span className=" text-gray-500">
                     {item.color}, {item.size}
                   </span>
                 </div>

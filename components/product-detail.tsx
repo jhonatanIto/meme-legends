@@ -132,6 +132,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
       printifyProductId: product.printifyProductId,
       size: selectedSize,
       color: selectedColor,
+      type: product.type,
       variantId,
       category: product.category ?? "movies",
     });
@@ -152,16 +153,35 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
         )}
 
         <div className="md:w-1/2 md:pr-30 ">
-          <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
+          <div className="flex flex-col">
+            <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
+            <h2 className="text-lg font-semibold text-gray-500">
+              {product.type === "tshirts"
+                ? "T-Shirt"
+                : product.type === "sweatshirt"
+                  ? "Sweatshirt"
+                  : "Hoodie"}
+            </h2>
+          </div>
 
           {product.price && (
             <div className="text-2xl mt-6 font-semibold text-red-500">
               ${(product.price / 100).toFixed(2)} USD
               <span className="text-zinc-400 text-[16px] ml-3 line-through">
-                39.90 USD
+                {product.type === "tshirts"
+                  ? "39.90 USD"
+                  : product.type === "sweatshirt"
+                    ? "49.90"
+                    : "59.90"}{" "}
+                USD
               </span>
               <span className=" text-white ml-3 p-1 text-[12px] bg-red-600">
-                SAVE 40%
+                SAVE{" "}
+                {product.type === "tshirts"
+                  ? "40%"
+                  : product.type === "sweatshirt"
+                    ? "30%"
+                    : "25%"}
               </span>
             </div>
           )}

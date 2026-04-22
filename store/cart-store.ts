@@ -1,3 +1,4 @@
+import { productType } from "@/lib/get-products";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -7,6 +8,7 @@ export interface CartItem {
   price: number;
   imageUrl: string | null;
   quantity: number;
+  type: productType;
   printifyProductId: string;
   size: string;
   color: string;

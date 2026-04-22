@@ -63,7 +63,12 @@ const ProductCard = ({ product }: Props) => {
           <p className="text-sm md:text-[15px] text-red-500 flex flex-col md:flex-row items-center gap-1">
             ${(price / 100).toFixed(2)}USD
             <span className="text-zinc-500 line-through text-xs md:text-sm">
-              $39.90 USD
+              {product.type === "tshirts"
+                ? "$39.90"
+                : product.type === "sweatshirt"
+                  ? "49.90"
+                  : "59.90"}{" "}
+              USD
             </span>
           </p>
           <div className="flex mt-2 md:mt-3 flex-wrap justify-center">

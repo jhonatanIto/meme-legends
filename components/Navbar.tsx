@@ -24,12 +24,6 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // const getProducts = async () => {
-  //   const res = await fetch("/api/printify");
-  //   const data = await res.json();
-  //   console.log(data.data);
-  // };
-
   return (
     <nav className="sticky top-0 z-50  shadow bg-white text-gray-700 font-semibold ">
       <div className="container mx-auto relative flex items-center justify-between px-4 py-3">
