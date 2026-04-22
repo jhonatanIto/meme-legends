@@ -16,8 +16,11 @@ const Footer = () => {
             <li>Home</li>
           </Link>
           <li>Shop</li>
-          <li>Product</li>
-          <li>Blog</li>
+          <Link href={"/tokutei"}>
+            {" "}
+            <li>Tokutei</li>
+          </Link>
+
           <Link href={"/contact/order-placed"}>
             <li>Contact Support</li>
           </Link>
