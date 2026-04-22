@@ -65,6 +65,7 @@ const Qty = ({ setSelectedQty, selectedQty, product, checkout }: Props) => {
                   printifyProductId: product.printifyProductId,
                   size: product.size,
                   color: product.color,
+                  type: product.type,
                   variantId: product.variantId,
                   category: product.category,
                 });

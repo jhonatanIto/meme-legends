@@ -1,6 +1,6 @@
 const page = () => {
   return (
-    <div className="">
+    <div>
       <div className="[&>div]:flex [&>div]:p-4 [&>div]:gap-5 [&>div]:border-b">
         <div>
           販売事業者名: <div> meme-legends</div>
