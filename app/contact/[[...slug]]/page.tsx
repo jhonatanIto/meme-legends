@@ -11,21 +11,23 @@ type Props = {
 const contact = async ({ params }: Props) => {
   const { slug } = await params;
   const page = slug?.[0];
-  console.log(page);
 
   return (
     <div className="flex  justify-center text-gray-700 fixed inset-0 z-50 bg-zinc-100">
-      <div className="flex flex-col items-center mt-7 w-[31%] max-w-150 ">
-        <h2 className="font-bold text-2xl">MEME-LEGENDS</h2>
-        <div className="mt-10 w-full">
-          <h1 className="font-bold text-[30px]">WHAT CAN WE HELP WITH?</h1>
+      <div className="flex flex-col items-center mt-7 w-full md:w-[31%] max-w-150 px-2">
+        <h2 className="font-bold text-xl md:text-2xl">MEME-LEGENDS</h2>
+
+        <div className="md:mt-10 mt-8 w-full">
+          <h1 className="font-bold text-2xl text-center md:text-left md:text-[30px]">
+            WHAT CAN WE HELP WITH?
+          </h1>
           <div className="mt-7 flex justify-around  ">
             <Link
               href={"/contact/order-placed"}
               className="w-[47%] rounded-4xl"
             >
               <button
-                className={`rounded-4xl px-8 py-3.5 border  w-full cursor-pointer hover:text-gray-700 hover:border-gray-700
+                className={`rounded-4xl px-7 py-3.5 border  w-full cursor-pointer hover:text-gray-700 hover:border-gray-700
                 ${page === "order-placed" ? "border-2 font-bold border-gray-700 " : "text-zinc-400 border-zinc-400 "}`}
               >
                 Order I placed
@@ -36,7 +38,7 @@ const contact = async ({ params }: Props) => {
               className="w-[47%] rounded-4xl"
             >
               <button
-                className={`rounded-4xl px-8 py-3.5 border  w-full cursor-pointer hover:text-gray-700 hover:border-gray-700
+                className={`rounded-4xl px-7 py-3.5 border  w-full cursor-pointer hover:text-gray-700 hover:border-gray-700
                 ${page === "something-else" ? "border-2 font-bold border-gray-700 " : "text-zinc-400 border-zinc-400 "}`}
               >
                 Something else
