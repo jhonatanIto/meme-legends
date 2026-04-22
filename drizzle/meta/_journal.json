@@ -92,6 +92,20 @@
       "when": 1776687044644,
       "tag": "0012_curly_wendigo",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1776789048629,
+      "tag": "0013_workable_blindfold",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1776789169492,
+      "tag": "0014_material_tarot",
+      "breakpoints": true
     }
   ]
 }

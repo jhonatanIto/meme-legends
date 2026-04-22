@@ -25,6 +25,7 @@ export const productCategoryEnum = pgEnum("product_category", [
   "movies",
   "celebrities",
   "cats",
+  "animation",
   "darkhumor",
 ]);
 
@@ -66,9 +67,6 @@ export const products = pgTable("products", {
 
   name: text("name").notNull(),
   category: productCategoryEnum("category"),
-
-  size: text("size"),
-  color: text("color"),
 
   price: integer("price").notNull(),
   currency: text("currency").default("usd").notNull(),
