@@ -105,7 +105,7 @@ export default function CheckoutPage() {
           className="w-full flex items-center justify-center h-12  font-semibold
          text-white bg-[#3572df] rounded-4xl mt-5 cursor-pointer"
         >
-          {loading ? <Spinner /> : "Proceed to Payment"}
+          {loading ? <Spinner color="white" /> : "Proceed to Payment"}
         </button>
       </form>
     </div>

@@ -1,8 +1,8 @@
 import ProductList from "@/components/product-list";
-import { getProduct } from "@/lib/get-products";
+import { getProducts } from "@/lib/get-products";
 
 const page = async () => {
-  const products = await getProduct();
+  const products = await getProducts("tshirts");
 
   return (
     <div className="pb-8">
@@ -10,7 +10,7 @@ const page = async () => {
         <h1 className="text-3xl font-bold">ALL SHIRTS</h1>
       </div>
 
-      <ProductList products={products}></ProductList>
+      <ProductList products={products} type="tshirts"></ProductList>
     </div>
   );
 };

@@ -1,14 +1,14 @@
 import Collection from "@/components/Collection";
 import ProductCard from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { getProduct } from "@/lib/get-products";
+import { getProducts } from "@/lib/get-products";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function Home() {
-  const products = await getProduct();
+  const products = await getProducts("tshirts");
 
-  const arrivals = products.slice(-4);
+  const arrivals = products.filter((p) => p.type === "tshirts").slice(-4);
 
   return (
     <div>
@@ -52,9 +52,9 @@ export default async function Home() {
         </div>
       </section>
       <section className="mt-8">
-        <h1 className="text-4xl">New Arrivals</h1>
+        <h1 className="md:text-4xl text-3xl">New Arrivals</h1>
 
-        <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {arrivals.map((p, key) => {
             return (
               <li key={key}>

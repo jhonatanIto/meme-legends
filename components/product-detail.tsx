@@ -9,6 +9,7 @@ import ProductCard, { colorsCode } from "./product-card";
 import Qty from "./util/Qty";
 import AddedModal from "./AddedModal";
 import MoreDetails from "./MoreDetails";
+import Spinner from "./util/Spinner";
 
 interface Props {
   product: Product;
@@ -39,48 +40,41 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedQty, setSelectedQty] = useState(1);
   const [enabledColor, setEnabledColor] = useState<string[]>([]);
-  const [sizes, setSizes] = useState<Size[]>([
-    { id: 14, title: "S" },
-
-    { id: 15, title: "M" },
-
-    { id: 16, title: "L" },
-
-    { id: 17, title: "XL" },
-
-    { id: 18, title: "2XL" },
-
-    { id: 19, title: "3XL" },
-    { id: 20, title: "4XL" },
-
-    { id: 21, title: "5XL" },
-  ]);
+  const [sizes, setSizes] = useState<Size[]>([]);
   const [sizeAlert, setSizeAlert] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
   const [productData, setProductData] = useState<DataApi>();
+  const [loading, setLoading] = useState(false);
 
   const sizeOrder = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"];
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const res = await fetch(`/api/printify/${product.printifyProductId}`);
-      const data: DataApi = await res.json();
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/printify/${product.printifyProductId}`);
+        const data: DataApi = await res.json();
 
-      const filteredSizes = (
-        data.options[1].values || data.options[0]?.values
-      ).filter((s) => s.title !== "5XL");
+        const filteredSizes = (
+          data.options[1].values || data.options[0]?.values
+        ).filter((s) => s.title !== "5XL");
 
-      setSizes(filteredSizes);
+        setSizes(filteredSizes);
 
-      setProductData(data);
+        setProductData(data);
 
-      const enabledVariants = data.variants.filter((v) => v.is_enabled) ?? [];
+        const enabledVariants = data.variants.filter((v) => v.is_enabled) ?? [];
 
-      const uniqueColors = [
-        ...new Set(enabledVariants.map((v) => v.title.split("/")[0].trim())),
-      ];
+        const uniqueColors = [
+          ...new Set(enabledVariants.map((v) => v.title.split("/")[0].trim())),
+        ];
 
-      setEnabledColor(uniqueColors);
+        setEnabledColor(uniqueColors);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchProduct();
@@ -216,25 +210,31 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
                 Size guide
               </a>
             </div>
-            <div className="flex flex-wrap  mt-3">
-              {sizes.map((s) => {
-                return (
-                  <div
-                    style={{
-                      borderColor:
-                        selectedSize === s.title
-                          ? "oklch(62.3% 0.214 259.815)"
-                          : "",
-                    }}
-                    key={s.id}
-                    className="pr-5 pl-5 p-3 min-w-14 flex items-center justify-center font-semibold
+            <div className="flex flex-wrap  mt-3 relative min-h-20">
+              {loading || sizes.length === 0 ? (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Spinner color="black" />
+                </div>
+              ) : (
+                sizes.map((s) => {
+                  return (
+                    <div
+                      style={{
+                        borderColor:
+                          selectedSize === s.title
+                            ? "oklch(62.3% 0.214 259.815)"
+                            : "",
+                      }}
+                      key={s.id}
+                      className="pr-3 pl-3 h-fit py-4  min-w-14 flex items-center justify-center font-semibold
                    border-2 rounded-[10px] m-1 cursor-pointer transition-all duration-200"
-                    onClick={() => setSelectedSize(s.title)}
-                  >
-                    {s.title}
-                  </div>
-                );
-              })}
+                      onClick={() => setSelectedSize(s.title)}
+                    >
+                      {s.title}
+                    </div>
+                  );
+                })
+              )}
             </div>
             {sizeAlert && !selectedSize && (
               <div className="text-red-600 mt-3">Please select a size</div>

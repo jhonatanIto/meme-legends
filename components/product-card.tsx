@@ -33,7 +33,7 @@ const ProductCard = ({ product }: Props) => {
   return (
     <div>
       <Link
-        href={`/products/${product.id}`}
+        href={`/${product.type}/${product.id}`}
         className="block h-fit text-center "
         onClick={() =>
           setCurrentColor({ url: currentUrl, colorName: selColor })

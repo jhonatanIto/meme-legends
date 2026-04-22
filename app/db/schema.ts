@@ -29,6 +29,12 @@ export const productCategoryEnum = pgEnum("product_category", [
   "darkhumor",
 ]);
 
+export const productTypeEnum = pgEnum("product_type", [
+  "tshirts",
+  "sweatshirt",
+  "hoodie",
+]);
+
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
 
@@ -67,6 +73,7 @@ export const products = pgTable("products", {
 
   name: text("name").notNull(),
   category: productCategoryEnum("category"),
+  type: productTypeEnum("type").default("tshirts").notNull(),
 
   price: integer("price").notNull(),
   currency: text("currency").default("usd").notNull(),

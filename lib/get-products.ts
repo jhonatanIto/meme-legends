@@ -1,4 +1,8 @@
-import { productCategoryEnum, products } from "@/app/db/schema";
+import {
+  productCategoryEnum,
+  products,
+  productTypeEnum,
+} from "@/app/db/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
@@ -7,6 +11,7 @@ export type Product = {
   id: number;
   name: string;
   category: Category | null;
+  type: productType;
   price: number;
   currency: string;
   images: Product_Images[];
@@ -24,6 +29,7 @@ type Product_Images = {
 };
 
 export type Category = (typeof productCategoryEnum.enumValues)[number];
+export type productType = (typeof productTypeEnum.enumValues)[number];
 
 const getProductsList = unstable_cache(
   async () => {
@@ -38,10 +44,14 @@ const getProductsList = unstable_cache(
   { revalidate: 7200 },
 );
 
-export const getProduct = async (category?: Category) => {
+export const getProducts = async (type?: productType, category?: Category) => {
   const productsList = await getProductsList();
 
-  if (!category) return productsList;
+  if (!type) return productsList;
 
-  return productsList.filter((p) => p.category === category);
+  const products = productsList.filter((p) => p.type === type);
+
+  if (!category) return products;
+
+  return products.filter((p) => p.category === category);
 };

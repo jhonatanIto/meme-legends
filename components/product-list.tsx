@@ -1,15 +1,16 @@
 "use client";
 
-import { Product } from "@/lib/get-products";
+import { Product, productType } from "@/lib/get-products";
 import ProductCard from "./product-card";
 import { useState } from "react";
 import CategoryList from "./CategoryList";
 
 interface Props {
   products: Product[];
+  type: productType;
 }
 
-const ProductList = ({ products }: Props) => {
+const ProductList = ({ products, type }: Props) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const filteredProduct = products.filter((p) => {
@@ -22,7 +23,7 @@ const ProductList = ({ products }: Props) => {
   return (
     <div>
       <div className="flex justify-start relative  ">
-        <CategoryList />
+        <CategoryList type={type} />
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

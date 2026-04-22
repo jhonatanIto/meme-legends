@@ -1,5 +1,5 @@
 import Image from "next/image";
-import instagram from "../app/products/images/instagram.png";
+import instagram from "../images/instagram.png";
 import Link from "next/link";
 
 const Footer = () => {

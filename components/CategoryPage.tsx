@@ -1,21 +1,19 @@
 import ProductList from "@/components/product-list";
-import { type Category, getProduct } from "@/lib/get-products";
+import { type Category, getProducts, productType } from "@/lib/get-products";
 
 interface Props {
-  params: {
-    category: Category;
-  };
+  category: Category;
+  type: productType;
 }
 
-const Category = async ({ params }: Props) => {
-  const { category } = await params;
-
-  const products = await getProduct(category);
+const CategoryPage = async ({ type, category }: Props) => {
+  const products = await getProducts(type, category);
 
   const titles: Record<string, string> = {
     movies: "MOVIES",
     celebrities: "CELEBRITIES",
     cats: "CATS",
+    animations: "ANIMATION",
     darkhumor: "DARK HUMOR",
   };
 
@@ -24,9 +22,9 @@ const Category = async ({ params }: Props) => {
       <div className=" leading-none tracking-tight text-foreground text-center mb-8 relative">
         <h1 className="text-3xl font-bold">{titles[category]}</h1>
       </div>
-      <ProductList products={products}></ProductList>
+      <ProductList products={products} type={type}></ProductList>
     </div>
   );
 };
 
-export default Category;
+export default CategoryPage;

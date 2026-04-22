@@ -1,16 +1,20 @@
 import { ProductDetail } from "@/components/product-detail";
-import { getProduct } from "@/lib/get-products";
+import { getProducts, productType } from "@/lib/get-products";
 
-const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
-  const productList = await getProduct();
+interface Props {
+  id: number;
+  type: productType;
+}
+
+const ProductSelec = async ({ id, type }: Props) => {
+  const productList = await getProducts(type);
   const product = productList.find((p) => p.id === Number(id));
 
   if (!product) {
     return <div>Not Found</div>;
   }
 
-  const List = await getProduct(product.category ?? undefined);
+  const List = await getProducts("tshirts", product.category ?? undefined);
   const recomendedList = List.filter((l) => l.id !== Number(id)).filter(
     (c) => c.category === product.category,
   );
@@ -24,4 +28,4 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
   );
 };
 
-export default Product;
+export default ProductSelec;

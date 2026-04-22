@@ -14,7 +14,7 @@ const ButtonSubmit = ({ message }: Props) => {
          text-white bg-[#3572df] rounded-4xl mt-5 cursor-pointer"
       disabled={pending}
     >
-      {pending ? <Spinner /> : message}
+      {pending ? <Spinner color="white" /> : message}
     </button>
   );
 };

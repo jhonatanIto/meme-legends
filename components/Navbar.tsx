@@ -41,11 +41,14 @@ const Navbar = () => {
           <Link href={"/"} className="hover:text-blue-600">
             Home
           </Link>
-          <Link href={"/products"} className="hover:text-blue-600">
-            Products
+          <Link href={"/tshirts"} className="hover:text-blue-600">
+            T-shirt
           </Link>
-          <Link href={"/checkout"} className="hover:text-blue-600">
-            Checkout
+          <Link href={"/sweatshirt"} className="hover:text-blue-600">
+            Sweatshirt
+          </Link>
+          <Link href={"/hoodie"} className="hover:text-blue-600">
+            Hoodie
           </Link>
         </div>
 

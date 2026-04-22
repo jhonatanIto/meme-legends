@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { getProduct } from "@/lib/get-products";
+import { getProducts } from "@/lib/get-products";
 import { stripe } from "@/lib/stripe";
 import { CartItem } from "@/store/cart-store";
 import { randomUUID } from "crypto";
@@ -20,7 +20,7 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
   const itemsJson = formData.get("items") as string;
   const items = JSON.parse(itemsJson);
 
-  const dbProducts = await getProduct();
+  const dbProducts = await getProducts();
 
   const line_items = items.map((item: CartItem) => {
     const product = dbProducts.find(
