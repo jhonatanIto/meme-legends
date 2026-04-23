@@ -18,7 +18,9 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
     : headersList.get("x-real-ip") || "unknown";
 
   const itemsJson = formData.get("items") as string;
-  const items = JSON.parse(itemsJson);
+  const items = JSON.parse(itemsJson) as CartItem[];
+
+  const itemsLength = items.reduce((acc, item) => acc + item.quantity, 0);
 
   const dbProducts = await getProducts();
 
@@ -37,7 +39,10 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
     return {
       price_data: {
         currency: "usd",
-        product_data: { name: item.name, images: [item.imageUrl] },
+        product_data: {
+          name: item.name,
+          images: item.imageUrl ? [item.imageUrl] : [],
+        },
         unit_amount: product?.price,
       },
       quantity: item.quantity,
@@ -59,6 +64,10 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
     country = data.country_code;
 
     shippingAmount = country === "US" ? 500 : 700;
+
+    if (itemsLength >= 3) {
+      shippingAmount = 0;
+    }
   } catch (error) {
     console.error(error);
     shippingAmount = 500;

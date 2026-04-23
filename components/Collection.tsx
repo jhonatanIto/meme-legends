@@ -1,56 +1,40 @@
-import { ArrowRight } from "lucide-react";
-import shirt from "../images/shirt2-removebg-preview.png";
-import cup from "../images/cup-removebg-preview.png";
-import phoneCase from "../images/case-removebg-preview.png";
 import Image from "next/image";
-import Link from "next/link";
+
+import billie from "../images/Billie eilish.png";
 
 const Collection = () => {
+  const pictures = [
+    {
+      url: billie,
+    },
+    {
+      url: billie,
+    },
+    {
+      url: billie,
+    },
+    {
+      url: billie,
+    },
+    {
+      url: billie,
+    },
+    {
+      url: billie,
+    },
+  ];
   return (
     <div>
       <h1 className="md:text-4xl text-3xl">Shop Collection</h1>
 
-      <div className="grid grid-cols-2 grid-rows-2  gap-4 h-150 mt-8 ">
-        <div className="col-span-1 row-span-2 bg-gray-200 flex justify-center">
-          <div className="flex items-center ">
-            <Image alt="Shirt" src={shirt} />
-            <div className=" mt-60">
-              <div className="text-4xl font-bold ">T-shirts</div>
-              <Link href={"/products/category/tshirt"}>
-                <div className="border-b w-fit border-black flex font-semibold mt-3 cursor-pointer">
-                  Collections <ArrowRight className="ml-3" />
-                </div>
-              </Link>
+      <div className="grid grid-cols-3 grid-rows-2  gap-5  mt-8 ">
+        {pictures.map((p, key) => {
+          return (
+            <div key={key} className="rounded-4xl overflow-hidden">
+              <Image alt="image" width={500} src={p.url} />
             </div>
-          </div>
-        </div>
-        <div className="bg-gray-200 flex justify-center">
-          <div className="flex items-center ">
-            <div>
-              <div className="text-4xl font-bold">Mugs</div>
-
-              <Link href={"/products/category/mug"}>
-                <div className="border-b w-fit flex font-semibold mt-3 cursor-pointer ">
-                  Collections <ArrowRight className="ml-3" />
-                </div>
-              </Link>
-            </div>
-            <Image height={350} alt="Shirt" src={cup} />
-          </div>
-        </div>
-        <div className="bg-gray-200 flex justify-center">
-          <div className="flex items-center ">
-            <div>
-              <div className="text-4xl font-bold">Phone Cases</div>
-              <Link href={"/products/category/phonecase"}>
-                <div className="border-b w-fit border-black flex font-semibold mt-3 cursor-pointer">
-                  Collections <ArrowRight className="ml-3" />
-                </div>
-              </Link>
-            </div>
-            <Image height={350} alt="Shirt" src={phoneCase} />
-          </div>
-        </div>
+          );
+        })}
       </div>
     </div>
   );

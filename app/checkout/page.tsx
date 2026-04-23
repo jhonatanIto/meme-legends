@@ -44,7 +44,7 @@ export default function CheckoutPage() {
 
       <ul className="space-y-4 ">
         {items.map((item, key) => (
-          <li key={key} className="flex flex-col gap-2  pb-2">
+          <li key={key} className="flex flex-col gap-2 border-b  pb-2">
             <div className="flex flex-col md:justify-between md:flex-row gap-4">
               <div className="flex  items-center gap-4">
                 {item.imageUrl && (
@@ -97,7 +97,7 @@ export default function CheckoutPage() {
         ))}
       </ul>
 
-      <div className="mt-4  pt-2 text-lg font-semibold text-end border-t ">
+      <div className="mt-4  pt-2 text-lg font-semibold text-end  ">
         Total: ${(total / 100).toFixed(2)}
       </div>
 

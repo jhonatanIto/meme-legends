@@ -8,7 +8,10 @@ import Link from "next/link";
 export default async function Home() {
   const products = await getProducts("tshirts");
 
-  const arrivals = products.filter((p) => p.type === "tshirts").slice(-4);
+  const arrivals = products.filter(
+    (p) =>
+      p.type === "tshirts" && [13, 12, 17, 20, 22, 14, 16, 19].includes(p.id),
+  );
 
   return (
     <div>
@@ -52,12 +55,12 @@ export default async function Home() {
         </div>
       </section>
       <section className="mt-8">
-        <h1 className="md:text-4xl text-3xl">New Arrivals</h1>
+        <h1 className="md:text-4xl font-semibold text-3xl">Best Sellers</h1>
 
         <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {arrivals.map((p, key) => {
+          {arrivals.map((p) => {
             return (
-              <li key={key}>
+              <li key={p.id}>
                 <ProductCard product={p} />
               </li>
             );
