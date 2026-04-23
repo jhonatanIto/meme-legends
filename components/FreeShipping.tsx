@@ -1,9 +1,10 @@
 const FreeShipping = () => {
   const content = (
     <div className="flex [&>span]:mx-1 px-30">
-      ✈️ <span>WORLDWIDE</span> <span>FREE</span> <span>SHIPPING</span>
-      <span>ORDERS</span> <span>OVER</span> <span>TWO</span> <span>ITEMS</span>{" "}
-      ✈️
+      ✈️ <span>FREE</span> <span>WORLDWIDE</span> <span>SHIPPING</span>
+      <span>ON</span> <span>ORDERS</span> <span>OF</span> <span>3</span>{" "}
+      <span>ITEMS</span> <span>OR</span>
+      <span>MORE</span> ✈️
     </div>
   );
   return (

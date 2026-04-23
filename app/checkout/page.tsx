@@ -108,9 +108,10 @@ export default function CheckoutPage() {
       >
         <input type="hidden" name="items" value={JSON.stringify(items)} />
         <button
+          disabled={loading}
           type="submit"
-          className="w-full flex items-center justify-center h-12  font-semibold
-         text-white bg-[#3572df] rounded-4xl mt-5 cursor-pointer"
+          className="w-full flex items-center justify-center h-12  font-semibold transition-all duration-200
+         text-white bg-[#3572df] rounded-4xl mt-5 cursor-pointer hover:bg-[#3572df]/85"
         >
           {loading ? <Spinner color="white" /> : "Proceed to Payment"}
         </button>

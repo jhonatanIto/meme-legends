@@ -12,13 +12,8 @@ const Footer = () => {
         </Link>
 
         <ul className="flex flex-col md:flex-row items-center gap-4 md:gap-10 text-sm md:text-base">
-          <Link href={"/"}>
-            <li>Home</li>
-          </Link>
-          <li>Shop</li>
-          <Link href={"/tokutei"}>
-            {" "}
-            <li>Tokutei</li>
+          <Link href={"/tshirts"}>
+            <li>Shop</li>
           </Link>
 
           <Link href={"/contact/order-placed"}>

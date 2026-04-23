@@ -91,6 +91,7 @@ export async function POST(req: NextRequest) {
           quantity: i.quantity,
           size: i.size,
           category: i.category as ProductCategory,
+          type: i.type,
         }));
 
         await tx.insert(orderItems).values(products);

@@ -8,6 +8,8 @@ import { eq, sql } from "drizzle-orm";
 new Worker(
   "order-queue",
   async (job) => {
+    if (job.name !== "create-order") return;
+
     const { items, shipping, orderId } = job.data;
 
     await db

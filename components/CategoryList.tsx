@@ -19,7 +19,7 @@ const CategoryList = ({ type }: Props) => {
     { name: "CELEBRITIES", url: `category/celebrities` },
     { name: "CATS", url: `category/cats` },
     { name: "ANIMATION", url: `category/animation` },
-    { name: "DARK HUMOR", url: `category/darkhumor` },
+    //   { name: "DARK HUMOR", url: `category/darkhumor` },
   ];
 
   useEffect(() => {

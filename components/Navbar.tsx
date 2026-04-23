@@ -8,11 +8,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { TextAlignJustify, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const { items } = useCartStore();
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
+  const [selectedTab, setSelectedTab] = useState("");
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setSelectedTab(pathname);
+  }, [pathname]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,6 +32,25 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const middle = [
+    {
+      title: "Home",
+      link: "/",
+    },
+    {
+      title: "T-shirt",
+      link: "/tshirts",
+    },
+    {
+      title: "Sweatshirt",
+      link: "/sweatshirt",
+    },
+    {
+      title: "Hoodie",
+      link: "/hoodie",
+    },
+  ];
+
   return (
     <nav className="sticky top-0 z-50  shadow bg-white text-gray-700 font-semibold ">
       <div className="container mx-auto relative flex items-center justify-between px-4 py-3">
@@ -32,18 +59,15 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 space-x-20 ">
-          <Link href={"/"} className="hover:text-blue-600">
-            Home
-          </Link>
-          <Link href={"/tshirts"} className="hover:text-blue-600">
-            T-shirt
-          </Link>
-          <Link href={"/sweatshirt"} className="hover:text-blue-600">
-            Sweatshirt
-          </Link>
-          <Link href={"/hoodie"} className="hover:text-blue-600">
-            Hoodie
-          </Link>
+          {middle.map((m) => (
+            <Link
+              key={m.title}
+              href={`${m.link}`}
+              className={`hover:text-blue-600 ${selectedTab === m.link ? "text-blue-600" : ""}`}
+            >
+              {m.title}
+            </Link>
+          ))}
         </div>
 
         <div className="flex items-center space-x-4">

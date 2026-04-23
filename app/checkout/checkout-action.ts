@@ -51,6 +51,10 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
 
   const orderId = randomUUID();
 
+  if (line_items.length === 0) {
+    throw new Error("No items in cart");
+  }
+
   await db
     .insert(tempOrders)
     .values({ id: orderId, items: JSON.stringify(items) });
