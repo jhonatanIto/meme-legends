@@ -95,7 +95,7 @@ const Privacy = () => {
           <h2>12. Contact Information</h2>
           <div>
             If you have any questions about this Privacy Policy or your data,
-            you can contact us at: Email: [jhoantan-ito@hotmail.com]
+            you can contact us at: Email: contact@meme-legends.com
           </div>
           <h2>Final Note</h2>
           <div>

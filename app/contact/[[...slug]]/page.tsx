@@ -1,5 +1,6 @@
 import OrderPlaced from "@/components/order-placed";
 import SomethingElse from "@/components/something-else";
+
 import Link from "next/link";
 
 type Props = {

@@ -5,9 +5,10 @@ interface Props {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   name: string;
+  type: string;
 }
 
-const Input = ({ placeholder, value, setValue, name }: Props) => {
+const Input = ({ placeholder, value, setValue, name, type }: Props) => {
   return (
     <div className="relative w-full mt-5">
       <input
@@ -16,7 +17,7 @@ const Input = ({ placeholder, value, setValue, name }: Props) => {
         onChange={(e) => setValue(e.target.value)}
         value={value}
         placeholder=" "
-        type="text"
+        type={type}
         className="w-full peer rounded-2xl py-4 px-5 border border-zinc-400 
              hover:border-zinc-800 focus:border-zinc-800 focus:outline-none"
       />

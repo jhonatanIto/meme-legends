@@ -13,12 +13,14 @@ const SomethingElse = () => {
   return (
     <form className="mt-6" action={receiveIssueMessage}>
       <Input
+        type="text"
         name="email"
         placeholder="Your email address"
         value={email}
         setValue={setEmail}
       />
       <Input
+        type="text"
         name="name"
         placeholder="Your name"
         value={name}

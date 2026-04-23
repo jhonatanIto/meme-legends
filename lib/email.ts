@@ -44,10 +44,10 @@ export const sendOrderConfirmationEmail = async ({
   if (!email) return;
 
   await resend.emails.send({
-    from: "Your Store <onboarding@resend.dev>",
-    replyTo: "jhonatan-ito@hotmail.com",
+    from: "Meme Legends <noreply@meme-legends.com>",
+    replyTo: "contact@meme-legends.com",
     to: email,
-    subject: `Payment confirmed for order #${orderId}`,
+    subject: `Your order #${orderId} is confirmed!`,
     html: `
       <div>
         <h2>Payment confirmed 🎉</h2>

@@ -33,7 +33,7 @@ const Terms = () => {
             you provide is accurate and up-to-date. You are solely responsible
             for maintaining the confidentiality of your account and password. If
             you believe your account is compromised, contact us immediately at:
-            [jhonatan-ito@hotmail.com].
+            contact@meme-legends.com.
           </div>
           <h2>4. Payment Terms</h2>
           <div>
@@ -64,7 +64,7 @@ const Terms = () => {
             exchanges for reasons such as incorrect size selection, color
             preference, or change of mind (“buyer’s remorse”). Process: To
             report a quality issue, you must contact us within 30 days of
-            delivery at [jhonatan-ito@hotmail.com], including your order number
+            delivery at contact@meme-legends.com, including your order number
             and clear photos of the issue.
           </div>
           <h2>7. Licenses and Intellectual Property</h2>
@@ -112,7 +112,7 @@ const Terms = () => {
           <h2>12. Contact Information</h2>
           <div>
             The Service is offered by MEME-LEGENDS. You may contact us at:
-            Email: [jhonatan-ito@hotmail.com]
+            Email: contact@meme-legends.com
           </div>
           <h2>13. Chargebacks and Disputes</h2>
           <div>

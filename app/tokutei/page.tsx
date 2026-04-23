@@ -12,7 +12,7 @@ const page = () => {
           所在地: <div>ご請求があれば遅滞なく開示いたします</div>
         </div>
         <div>
-          お問い合わせ先: <div>E-mail: jhonatan-ito@hotmail.com </div>
+          お問い合わせ先: <div>E-mail: contact@meme-legends.com</div>
         </div>
         <div>
           電話番号:

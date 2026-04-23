@@ -4,21 +4,32 @@ import { useState } from "react";
 import Input from "./util/contact-input";
 import { X } from "lucide-react";
 import Link from "next/link";
+import { orderInfo } from "@/lib/order-info";
 
 const OrderPlaced = () => {
   const [orderNumber, setOrderNumber] = useState("");
   const [email, setEmail] = useState("");
   const [modal, setModal] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!orderNumber || !email) {
+      alert("fill all the fields");
+    }
+    const result = await orderInfo(Number(orderNumber), email);
+
+    console.log(result);
+  };
+
   return (
     <div>
       {" "}
       <p className="mt-5">
-        Please enter your order number and the email you used to place your
-        order:
+        Please enter your order number and the email to check order status
       </p>
       <Input
         name="orderNumber"
-        placeholder={"Your order number"}
+        placeholder="Your order number"
+        type="number"
         value={orderNumber}
         setValue={setOrderNumber}
       />
@@ -31,11 +42,15 @@ const OrderPlaced = () => {
       <Input
         name="email"
         placeholder={"Email used when placing the order"}
+        type="text"
         value={email}
         setValue={setEmail}
       />
-      <button className="w-full py-3 font-semibold text-white bg-[#3572df] rounded-4xl mt-5 cursor-pointer">
-        Continue
+      <button
+        className="w-full py-3 font-semibold text-white bg-[#3572df] rounded-4xl mt-5 cursor-pointer"
+        onClick={handleSubmit}
+      >
+        Confirm
       </button>
       <Modal modal={modal} setModal={setModal} />
     </div>
