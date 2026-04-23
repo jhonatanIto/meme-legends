@@ -94,19 +94,16 @@ const Navbar = () => {
       </div>
       {mobileOpen && (
         <nav className="md:hidden bg-white shadow-md">
-          <ul className="flex  p-4 space-y-2">
-            <Link href={"/"} className="block hover:text-blue-600">
-              {" "}
-              Home{" "}
-            </Link>
-            <Link href={"/products"} className="block hover:text-blue-600 ml-5">
-              {" "}
-              Products{" "}
-            </Link>
-            <Link href={"/"} className="block hover:text-blue-600 ml-5">
-              {" "}
-              Checkout{" "}
-            </Link>
+          <ul className="flex  p-4 space-y-2 gap-8">
+            {middle.map((m) => (
+              <Link
+                key={m.title}
+                href={`${m.link}`}
+                className={`hover:text-blue-600 ${selectedTab === m.link ? "text-blue-600" : ""}`}
+              >
+                {m.title}
+              </Link>
+            ))}
           </ul>
         </nav>
       )}
