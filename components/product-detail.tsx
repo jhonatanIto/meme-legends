@@ -163,7 +163,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
           </div>
 
           {product.price && (
-            <div className="md:text-2xl text-[21px] md:mt-6 mt-2 font-semibold text-red-500">
+            <div className="md:text-2xl text-[20px] md:mt-6 mt-2 font-semibold text-red-500">
               ${(product.price / 100).toFixed(2)} USD
               <span className="text-zinc-400 text-[16px] ml-3 line-through">
                 {product.type === "tshirts"
@@ -173,7 +173,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
                     : "59.90"}{" "}
                 USD
               </span>
-              <span className=" text-white ml-3 p-1 text-[12px] bg-red-600">
+              <span className=" text-white ml-2 p-1 text-[12px] bg-red-600">
                 SAVE{" "}
                 {product.type === "tshirts"
                   ? "40%"

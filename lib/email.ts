@@ -58,7 +58,10 @@ export const sendOrderConfirmationEmail = async ({
   });
 };
 
-export const receiveIssueMessage = async (formData: FormData) => {
+export const receiveIssueMessage = async (
+  prevState: { success: boolean } | null,
+  formData: FormData,
+): Promise<{ success: boolean }> => {
   const email = formData.get("email") as string;
   const name = formData.get("name") as string;
   const message = formData.get("message") as string;
@@ -98,4 +101,6 @@ export const receiveIssueMessage = async (formData: FormData) => {
 `,
     attachments,
   });
+
+  return { success: true };
 };

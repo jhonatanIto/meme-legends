@@ -1,9 +1,10 @@
 "use client";
-import { useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import Input from "./util/contact-input";
 import { Upload } from "lucide-react";
 import { receiveIssueMessage } from "@/lib/email";
 import ButtonSubmit from "./util/button-submit";
+import toast from "react-hot-toast";
 
 const SomethingElse = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,22 @@ const SomethingElse = () => {
   const [fileName, setFileName] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
+  const [state, formAction] = useActionState(receiveIssueMessage, null);
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success(
+        "Your message has been sent successfully. Our team will get back to you soon.",
+        { duration: 5000 },
+      );
+      formRef.current?.reset();
+      setFileName(null);
+      setEmail("");
+      setName("");
+      setMessage("");
+    }
+  }, [state]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -19,23 +36,8 @@ const SomethingElse = () => {
     }
   };
 
-  const handleSubmit = () => {
-    setTimeout(() => {
-      formRef.current?.reset();
-      setEmail("");
-      setName("");
-      setMessage("");
-      setFileName(null);
-    }, 3100);
-  };
-
   return (
-    <form
-      ref={formRef}
-      onSubmit={handleSubmit}
-      className="mt-6"
-      action={receiveIssueMessage}
-    >
+    <form ref={formRef} className="mt-6" action={formAction}>
       <Input
         type="text"
         name="email"
