@@ -119,6 +119,7 @@ export async function POST(req: NextRequest) {
             address: customer?.address
               ? JSON.parse(JSON.stringify(customer.address))
               : null,
+            phone: customer?.phone,
           },
           orderId: createdOrderId,
         },

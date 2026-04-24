@@ -6,6 +6,7 @@ interface Shipping {
   name?: string | null;
   email?: string | null;
   address?: Stripe.Address | null;
+  phone?: string | null;
 }
 
 const JP_STATE_MAP: Record<string, string> = {
@@ -101,7 +102,7 @@ export const createPrintifyOrder = async ({
         send_shipping_notification: true,
         address_to: {
           first_name: nameParts[0] || "Customer",
-          last_name: nameParts.slice(1).join(" ") || "",
+          last_name: nameParts.slice(1).join(" ") || "-",
           email: shipping?.email || "",
           country: shipping?.address?.country || "",
           region:
@@ -116,6 +117,7 @@ export const createPrintifyOrder = async ({
               /^(\d{3})(\d{4})$/,
               "$1-$2",
             ) || "",
+          phone: shipping?.phone || "",
         },
       }),
     },

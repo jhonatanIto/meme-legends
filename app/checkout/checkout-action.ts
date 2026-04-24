@@ -86,6 +86,10 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
       orderId,
     },
 
+    phone_number_collection: {
+      enabled: true,
+    },
+
     shipping_address_collection: {
       allowed_countries: [
         "US",
