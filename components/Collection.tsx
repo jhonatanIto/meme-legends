@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import billie from "../images/Billie eilish.png";
+import justin from "../images/justin.png";
 
 const Collection = () => {
   const pictures = [
@@ -8,30 +9,35 @@ const Collection = () => {
       url: billie,
     },
     {
-      url: billie,
+      url: justin,
     },
     {
       url: billie,
     },
     {
-      url: billie,
+      url: justin,
     },
     {
       url: billie,
     },
     {
-      url: billie,
+      url: justin,
     },
   ];
   return (
     <div>
-      <h1 className="md:text-4xl text-3xl">Shop Collection</h1>
+      <h1 className="md:text-4xl font-semibold text-3xl text-gray-700">
+        Shop Collection
+      </h1>
 
-      <div className="grid grid-cols-3 grid-rows-2  gap-5  mt-8 ">
+      <div className="grid md:grid-cols-3 grid-cols-2 md:grid-rows-2  md:gap-5 gap-2  mt-8 ">
         {pictures.map((p, key) => {
           return (
-            <div key={key} className="rounded-4xl overflow-hidden">
-              <Image alt="image" width={500} src={p.url} />
+            <div
+              key={key}
+              className=" md:rounded-4xl rounded-2xl overflow-hidden relative w-full md:h-120 h-50"
+            >
+              <Image alt="image" src={p.url} fill className="object-cover" />
             </div>
           );
         })}

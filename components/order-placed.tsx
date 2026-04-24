@@ -5,19 +5,27 @@ import Input from "./util/contact-input";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { orderInfo } from "@/lib/order-info";
+import ButtonSubmit from "./util/button-submit";
+import { orderStatusEnum } from "@/app/db/schema";
+
+export type OrderStatus = (typeof orderStatusEnum.enumValues)[number];
 
 const OrderPlaced = () => {
   const [orderNumber, setOrderNumber] = useState("");
   const [email, setEmail] = useState("");
   const [modal, setModal] = useState(false);
+  const [status, setStatus] = useState<OrderStatus | null>(null);
+  const [openStatus, setOpenStatus] = useState(false);
 
   const handleSubmit = async () => {
     if (!orderNumber || !email) {
       alert("fill all the fields");
+      return;
     }
     const result = await orderInfo(Number(orderNumber), email);
 
-    console.log(result);
+    setStatus(result);
+    setOpenStatus(true);
   };
 
   return (
@@ -26,33 +34,36 @@ const OrderPlaced = () => {
       <p className="mt-5">
         Please enter your order number and the email to check order status
       </p>
-      <Input
-        name="orderNumber"
-        placeholder="Your order number"
-        type="number"
-        value={orderNumber}
-        setValue={setOrderNumber}
-      />
-      <p
-        className="border-b  border-gray-700 hover:border-blue-600 w-fit mt-2 text-[14px] hover:text-blue-600 cursor-pointer"
-        onClick={() => setModal(true)}
-      >
-        I cant't find my order number
-      </p>
-      <Input
-        name="email"
-        placeholder={"Email used when placing the order"}
-        type="text"
-        value={email}
-        setValue={setEmail}
-      />
-      <button
-        className="w-full py-3 font-semibold text-white bg-[#3572df] rounded-4xl mt-5 cursor-pointer"
-        onClick={handleSubmit}
-      >
-        Confirm
-      </button>
+      <form action={handleSubmit}>
+        <Input
+          name="orderNumber"
+          placeholder="Your order number"
+          type="number"
+          value={orderNumber}
+          setValue={setOrderNumber}
+        />
+        <p
+          className="border-b  border-gray-700 hover:border-blue-600 w-fit mt-2 text-[14px] hover:text-blue-600 cursor-pointer"
+          onClick={() => setModal(true)}
+        >
+          I cant't find my order number
+        </p>
+        <Input
+          name="email"
+          placeholder={"Email used when placing the order"}
+          type="text"
+          value={email}
+          setValue={setEmail}
+        />
+
+        <ButtonSubmit message="Confirm" />
+      </form>
       <Modal modal={modal} setModal={setModal} />
+      <StatusMessage
+        status={status}
+        setOpenStatus={setOpenStatus}
+        openStatus={openStatus}
+      />
     </div>
   );
 };
@@ -107,6 +118,73 @@ const Modal = ({
               Close
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const StatusMessage = ({
+  status,
+  openStatus,
+  setOpenStatus,
+}: {
+  status: OrderStatus | null;
+  openStatus: boolean;
+  setOpenStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  let message = "";
+
+  switch (status) {
+    case "payment_pending":
+      message =
+        "Your payment is still pending. Please complete the payment to start processing your order.";
+      break;
+    case "paid":
+      message =
+        "Payment received! Your order is being prepared for production. ";
+      break;
+    case "printify_created":
+      message =
+        "Your order has been received and is waiting to start production.";
+      break;
+    case "in_production":
+      message =
+        "Your order is currently in production. This usually takes a few business days.";
+      break;
+    case "shipped":
+      message =
+        "Your order has been shipped and is on the way! You should receive it soon.";
+      break;
+    case "delivered":
+      message = "Your order has been delivered. We hope you enjoy it!";
+      break;
+    case "failed":
+      message =
+        "There was an issue processing your order. Please contact our support team for assistance.";
+      break;
+
+    default:
+      message =
+        "We couldn't find your order. Please check your details or contact support.";
+  }
+  return (
+    <div
+      style={{ display: openStatus ? "flex" : "none" }}
+      onClick={() => setOpenStatus(false)}
+      className={`fixed inset-0  justify-center items-center bg-black/50 z-50 
+         transition-all duration-200 ease-in-out`}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-2xl p-1 w-150"
+      >
+        <div className="flex justify-end ">
+          <X onClick={() => setOpenStatus(false)} className="cursor-pointer" />
+        </div>
+        <div className="px-7 pb-7">
+          <h1 className="font-semibold text-2xl">Your order status:</h1>
+          <p className="mt-6">{message} </p>
         </div>
       </div>
     </div>

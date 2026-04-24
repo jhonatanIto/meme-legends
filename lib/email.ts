@@ -62,17 +62,40 @@ export const receiveIssueMessage = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const name = formData.get("name") as string;
   const message = formData.get("message") as string;
-  console.log("entrou aqui");
+  const file = formData.get("file") as File | null;
 
   if (!email || !name || !message) {
     throw new Error("Missing fields");
   }
 
+  const attachments = [];
+
+  if (file && file.size > 0) {
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error("File too large (max 5MB)");
+    }
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    attachments.push({
+      filename: file.name,
+      content: buffer,
+    });
+  }
+
   await resend.emails.send({
-    from: "Your Store <onboarding@resend.dev>",
+    from: "Meme Legends <contact@meme-legends.com>",
     replyTo: email,
-    to: "jhonatan-ito@hotmail.com",
+    to: "contact@meme-legends.com",
     subject: `Issue for the user ${name}`,
-    html: `<div>${message}</div>`,
+    html: `
+  <div>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Message:</strong></p>
+    <p>${message}</p>
+  </div>
+`,
+    attachments,
   });
 };

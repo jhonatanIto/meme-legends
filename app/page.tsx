@@ -10,7 +10,7 @@ export default async function Home() {
 
   const arrivals = products.filter(
     (p) =>
-      p.type === "tshirts" && [13, 12, 17, 20, 22, 14, 16, 19].includes(p.id),
+      p.type === "tshirts" && [13, 17, 20, 22, 14, 16, 19, 12].includes(p.id),
   );
 
   return (
@@ -55,7 +55,9 @@ export default async function Home() {
         </div>
       </section>
       <section className="mt-8">
-        <h1 className="md:text-4xl font-semibold text-3xl">Best Sellers</h1>
+        <h1 className="md:text-4xl font-semibold text-3xl text-gray-700">
+          Best Sellers
+        </h1>
 
         <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {arrivals.map((p) => {

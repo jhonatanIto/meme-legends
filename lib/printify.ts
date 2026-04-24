@@ -76,6 +76,12 @@ export const createPrintifyOrder = async ({
   orderId: number;
 }) => {
   const nameParts = shipping?.name?.split(" ") || [];
+  const rawPhone = shipping?.phone || "";
+  const phone = rawPhone.startsWith("+")
+    ? rawPhone
+    : rawPhone
+      ? `+${rawPhone}`
+      : "";
 
   const res = await fetch(
     `https://api.printify.com/v1/shops/${process.env.PRINTIFY_SHOP_ID}/orders.json`,
@@ -113,7 +119,7 @@ export const createPrintifyOrder = async ({
           address1: shipping?.address?.line1 || "",
           address2: shipping?.address?.line2 || "",
           zip: shipping?.address?.postal_code,
-          phone: shipping?.phone || "",
+          phone: phone,
         },
       }),
     },

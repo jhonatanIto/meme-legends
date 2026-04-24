@@ -28,7 +28,7 @@ const contact = async ({ params }: Props) => {
               className="w-[47%] rounded-4xl"
             >
               <button
-                className={`rounded-4xl px-7 py-3.5 border  w-full cursor-pointer hover:text-gray-700 hover:border-gray-700
+                className={`rounded-4xl px-6 py-3.5 border  w-full cursor-pointer hover:text-gray-700 hover:border-gray-700
                 ${page === "order-placed" ? "border-2 font-bold border-gray-700 " : "text-zinc-400 border-zinc-400 "}`}
               >
                 Order I placed
@@ -39,7 +39,7 @@ const contact = async ({ params }: Props) => {
               className="w-[47%] rounded-4xl"
             >
               <button
-                className={`rounded-4xl px-7 py-3.5 border  w-full cursor-pointer hover:text-gray-700 hover:border-gray-700
+                className={`rounded-4xl px-6 py-3.5 border  w-full cursor-pointer hover:text-gray-700 hover:border-gray-700
                 ${page === "something-else" ? "border-2 font-bold border-gray-700 " : "text-zinc-400 border-zinc-400 "}`}
               >
                 Something else

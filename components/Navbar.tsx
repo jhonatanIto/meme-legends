@@ -72,24 +72,19 @@ const Navbar = () => {
 
         <div className="flex items-center space-x-4">
           <Link href="/checkout" className="relative">
-            <ShoppingCartIcon className="h-6 w-6" />
+            <ShoppingCartIcon className="h-7 w-7 mr-3" />
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+              <span className="absolute -top-2 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {cartCount}
               </span>
             )}
           </Link>
-          <Button
-            variant="ghost"
+          <button
             className="md:hidden "
             onClick={() => setMobileOpen((prev) => !prev)}
           >
-            {mobileOpen ? (
-              <X className="h-12 w-12  " />
-            ) : (
-              <TextAlignJustify className="h-12 w-12" />
-            )}
-          </Button>
+            {mobileOpen ? <X size={30} /> : <TextAlignJustify size={30} />}
+          </button>
         </div>
       </div>
       {mobileOpen && (

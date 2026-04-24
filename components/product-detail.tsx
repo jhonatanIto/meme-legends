@@ -50,8 +50,6 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
 
   const sizeOrder = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"];
 
-  console.log(productData);
-
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
@@ -165,7 +163,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
           </div>
 
           {product.price && (
-            <div className="text-2xl mt-6 font-semibold text-red-500">
+            <div className="md:text-2xl text-[21px] md:mt-6 mt-2 font-semibold text-red-500">
               ${(product.price / 100).toFixed(2)} USD
               <span className="text-zinc-400 text-[16px] ml-3 line-through">
                 {product.type === "tshirts"
@@ -260,7 +258,7 @@ export const ProductDetail = ({ product, recomendedList, colors }: Props) => {
               checkout={false}
             />
             <Button
-              className=" bg-[#3572df] p-7 text-[15px] h-10 md:text-[18px] md:w-[80%] w-[70%] md:rounded-4xl 
+              className=" bg-[#3572df] md:p-7 text-[15px] h-10 md:text-[18px] md:w-[80%] w-[70%] md:rounded-4xl 
              min-w-30 cursor-pointer hover:bg-[#3572df]/80 ml-2 "
               onClick={() => {
                 if (!selectedColor || !selectedSize) {
