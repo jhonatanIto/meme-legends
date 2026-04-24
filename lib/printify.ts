@@ -112,11 +112,7 @@ export const createPrintifyOrder = async ({
           city: shipping?.address?.city || "",
           address1: shipping?.address?.line1 || "",
           address2: shipping?.address?.line2 || "",
-          zip:
-            shipping?.address?.postal_code?.replace(
-              /^(\d{3})(\d{4})$/,
-              "$1-$2",
-            ) || "",
+          zip: shipping?.address?.postal_code,
           phone: shipping?.phone || "",
         },
       }),
