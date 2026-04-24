@@ -19,6 +19,10 @@ export async function POST(req: NextRequest) {
   const body = await req.text();
   const sig = req.headers.get("stripe-signature") as string;
 
+  if (!sig) {
+    return new Response("Missing signature", { status: 400 });
+  }
+
   let event: Stripe.Event;
 
   try {
@@ -43,12 +47,12 @@ export async function POST(req: NextRequest) {
         return new Response("Invalid metadata", { status: 400 });
       }
 
-      const [temOrder] = await db
+      const [tempOrder] = await db
         .select()
         .from(tempOrders)
         .where(eq(tempOrders.id, orderId));
 
-      if (!temOrder) {
+      if (!tempOrder) {
         console.error("Temp order not found:", orderId);
         return new Response("Order not found", { status: 404 });
       }
@@ -56,7 +60,7 @@ export async function POST(req: NextRequest) {
       let items: CartItem[];
 
       try {
-        items = JSON.parse(temOrder.items);
+        items = JSON.parse(tempOrder.items);
       } catch (error) {
         console.error("Invalid items JSON", error);
         return new Response("Invalid data", { status: 400 });
@@ -101,6 +105,10 @@ export async function POST(req: NextRequest) {
 
       console.log("Order enqueued:", { orderId: createdOrderId });
 
+      if (!createdOrderId) {
+        return new Response("Order creation failed", { status: 500 });
+      }
+
       await orderQueue.add(
         "create-order",
         {
@@ -108,7 +116,9 @@ export async function POST(req: NextRequest) {
           shipping: {
             name: customer?.name,
             email: customer?.email,
-            address: customer?.address,
+            address: customer?.address
+              ? JSON.parse(JSON.stringify(customer.address))
+              : null,
           },
           orderId: createdOrderId,
         },
