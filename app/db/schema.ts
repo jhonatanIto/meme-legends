@@ -16,6 +16,7 @@ export const orderStatusEnum = pgEnum("order_status", [
   "paid",
   "processing",
   "printify_created",
+  "submitting",
   "in_production",
   "shipped",
   "delivered",
