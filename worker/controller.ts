@@ -1,7 +1,7 @@
 import { orders } from "@/app/db/schema";
 import { db } from "@/lib/db";
 import { createPrintifyOrder, submit_order_to_printify } from "@/lib/printify";
-import { orderQueue } from "@/lib/queue";
+import { emailQueue, orderQueue } from "@/lib/queue";
 import { Job } from "bullmq";
 import { and, eq, sql } from "drizzle-orm";
 
@@ -36,7 +36,7 @@ export const createOrder = async (job: Job) => {
       })
       .where(eq(orders.id, orderId));
 
-    await orderQueue.add(
+    await emailQueue.add(
       "send-order-confirmation-email",
       {
         email,
