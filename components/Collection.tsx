@@ -37,7 +37,13 @@ const Collection = () => {
               key={key}
               className=" md:rounded-4xl rounded-2xl overflow-hidden relative w-full md:h-120 h-50"
             >
-              <Image alt="image" src={p.url} fill className="object-cover" />
+              <Image
+                alt="image"
+                src={p.url}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
             </div>
           );
         })}

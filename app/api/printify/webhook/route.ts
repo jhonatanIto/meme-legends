@@ -3,8 +3,6 @@ import { sendShippingEmail } from "@/lib/email";
 export async function POST(req: Request) {
   const body = await req.json();
 
-  console.log("WEBHOOK RECEBIDO", body);
-
   if (body.topic === "order:updated") {
     const order = body.resource?.data;
 

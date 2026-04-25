@@ -46,7 +46,7 @@ const ProductCard = ({ product }: Props) => {
                 alt={product.name}
                 src={currentUrl}
                 fill
-                objectFit="cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 className={`md:group-hover:scale-220 group-hover:scale-180 scale-120 ${product.type === "tshirts" ? "md:scale-110" : "md:scale-95"}
                     object-cover transition-transform ease-out  duration-300 rounded-t-lg `}
               />
