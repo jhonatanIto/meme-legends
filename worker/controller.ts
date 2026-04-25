@@ -7,7 +7,6 @@ import { and, eq, sql } from "drizzle-orm";
 
 export const createOrder = async (job: Job) => {
   const { items, shipping, orderId, email, name } = job.data;
-  console.log("JOB RECEBIDO", job.name, job.data);
 
   const updated = await db
     .update(orders)
@@ -53,8 +52,6 @@ export const createOrder = async (job: Job) => {
     );
 
     console.log("Order created:", printifyOrder.id);
-
-    await orderQueue.add("send-order-confirmation-email", {});
 
     await orderQueue.add(
       "submit-order",

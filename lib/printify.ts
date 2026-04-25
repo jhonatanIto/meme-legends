@@ -1,6 +1,5 @@
 import { CartItem } from "@/store/cart-store";
 import Stripe from "stripe";
-import { orderQueue } from "./queue";
 
 interface Shipping {
   name?: string | null;
@@ -142,21 +141,6 @@ export const createPrintifyOrder = async ({
     throw new Error("Printify order ID not returned");
   }
 
-  await orderQueue.add(
-    "printify-track-order",
-    {
-      orderId,
-      printifyOrderId,
-      email: shipping?.email,
-    },
-    {
-      attempts: 50,
-      backoff: {
-        type: "exponential",
-        delay: 1000 * 60 * 60,
-      },
-    },
-  );
   return { id: printifyOrderId, raw: data };
 };
 
