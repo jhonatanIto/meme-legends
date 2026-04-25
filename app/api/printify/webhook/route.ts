@@ -6,7 +6,9 @@ export async function POST(req: Request) {
   console.log("WEBHOOK RECEBIDO", body);
 
   if (body.topic === "order:updated") {
-    const order = body.data;
+    const order = body.resource?.data;
+
+    if (!order) return new Response("OK");
 
     const trackingNumber = order.shipments?.[0]?.tracking_number ?? null;
 
