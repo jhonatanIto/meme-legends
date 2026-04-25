@@ -16,8 +16,8 @@ export const sendShippingEmail = async ({
   if (!email) return;
 
   await resend.emails.send({
-    from: "Your Store <onboarding@resend.dev>",
-    replyTo: "jhonatan-ito@hotmail.com",
+    from: "Meme Legends <noreply@meme-legends.com>",
+    replyTo: "contact@meme-legends.com",
     to: email,
     subject: `Your order #${orderId} has shipped 🚚`,
     html: `
