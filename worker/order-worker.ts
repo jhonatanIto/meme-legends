@@ -9,8 +9,10 @@ new Worker(
   "order-queue",
   async (job) => {
     if (job.name !== "create-order") return;
+    console.log("Worker started");
 
     const { items, shipping, orderId } = job.data;
+    console.log("JOB RECEBIDO", job.name, job.data);
 
     const updated = await db
       .update(orders)
