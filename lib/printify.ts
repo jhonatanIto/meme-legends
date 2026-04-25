@@ -9,6 +9,9 @@ interface Shipping {
   phone?: string | null;
 }
 
+const shopId = process.env.PRINTIFY_SHOP_ID;
+const token = process.env.PRINTIFY_API_TOKEN;
+
 const JP_STATE_MAP: Record<string, string> = {
   北海道: "Hokkaido",
   青森県: "Aomori",
@@ -84,11 +87,11 @@ export const createPrintifyOrder = async ({
       : "";
 
   const res = await fetch(
-    `https://api.printify.com/v1/shops/${process.env.PRINTIFY_SHOP_ID}/orders.json`,
+    `https://api.printify.com/v1/shops/${shopId}/orders.json`,
     {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.PRINTIFY_API_TOKEN}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -145,4 +148,24 @@ export const createPrintifyOrder = async ({
     email: shipping?.email,
   });
   return { id: printifyOrderId, raw: data };
+};
+
+export const submit_order_to_printify = async (orderId: string) => {
+  const res = await fetch(
+    `https://api.printify.com/v1/shops/${shopId}/orders/${orderId}/send_to_production.json`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("Error to submit order:", text);
+    throw new Error(text);
+  }
+
+  return res.json();
 };

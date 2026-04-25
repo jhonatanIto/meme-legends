@@ -14,11 +14,13 @@ import { relations } from "drizzle-orm";
 export const orderStatusEnum = pgEnum("order_status", [
   "payment_pending",
   "paid",
+  "processing",
   "printify_created",
   "in_production",
   "shipped",
   "delivered",
   "failed",
+  "needs_manual_review",
 ]);
 
 export const productCategoryEnum = pgEnum("product_category", [
