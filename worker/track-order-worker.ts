@@ -27,6 +27,9 @@ new Worker(
     const tracking = data.shipments?.[0]?.tracking_number;
 
     if (status !== "shipped" && status !== "fulfilled") {
+      console.log(
+        `Order ${job.data.orderId} not shipped yet. Status: ${status}`,
+      );
       throw new Error("Order not shipped yet");
     }
 

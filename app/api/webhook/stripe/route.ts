@@ -122,28 +122,14 @@ export async function POST(req: NextRequest) {
             phone: customer?.phone,
           },
           orderId: createdOrderId,
+          email: customer?.email,
+          name: customer?.name,
         },
         {
           attempts: 5,
           backoff: {
             type: "exponential",
             delay: 60000,
-          },
-        },
-      );
-
-      await orderQueue.add(
-        "send-order-confirmation-email",
-        {
-          email: customer?.email,
-          name: customer?.name,
-          orderId: createdOrderId,
-        },
-        {
-          attempts: 3,
-          backoff: {
-            type: "exponential",
-            delay: 30000,
           },
         },
       );
