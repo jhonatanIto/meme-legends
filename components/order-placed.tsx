@@ -144,7 +144,15 @@ const StatusMessage = ({
       message =
         "Payment received! Your order is being prepared for production. ";
       break;
+    case "processing":
+      message =
+        "Payment received! Your order is being prepared for production.";
+      break;
     case "printify_created":
+      message =
+        "Your order has been received and is waiting to start production.";
+      break;
+    case "submitting":
       message =
         "Your order has been received and is waiting to start production.";
       break;
