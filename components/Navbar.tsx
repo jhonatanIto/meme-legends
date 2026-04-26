@@ -6,7 +6,6 @@ import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
 import { TextAlignJustify, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -15,6 +14,7 @@ const Navbar = () => {
   const { items } = useCartStore();
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
   const [selectedTab, setSelectedTab] = useState("");
+  const [mounted, setMounted] = useState(false);
 
   const pathname = usePathname();
 
@@ -51,6 +51,17 @@ const Navbar = () => {
     },
   ];
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // const getId = async () => {
+  //   const res = await fetch("/api/printify");
+  //   const data = await res.json();
+
+  //   console.log(data);
+  // };
+
   return (
     <nav className="sticky top-0 z-50  shadow bg-white text-gray-700 font-semibold ">
       <div className="container mx-auto relative flex items-center justify-between px-4 py-3">
@@ -73,7 +84,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           <Link href="/checkout" className="relative">
             <ShoppingCartIcon className="h-7 w-7 mr-3" />
-            {cartCount > 0 && (
+            {mounted && cartCount > 0 && (
               <span className="absolute -top-2 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {cartCount}
               </span>

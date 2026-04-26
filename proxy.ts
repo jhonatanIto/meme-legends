@@ -21,8 +21,12 @@ const ALLOWED_COUNTRIES = [
   "PT",
 ];
 
-export function middleware(req: NextRequest) {
-  const country = req.headers.get("x-vercel-ip-country") || "JP";
+export function proxy(req: NextRequest) {
+  const country = req.headers.get("x-vercel-ip-country");
+
+  if (!country) {
+    return NextResponse.next();
+  }
 
   if (!ALLOWED_COUNTRIES.includes(country)) {
     return new NextResponse("Not available in your region", { status: 403 });

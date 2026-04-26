@@ -1,9 +1,7 @@
 import Collection from "@/components/Collection";
 import ProductCard from "@/components/product-card";
-import { Button } from "@/components/ui/button";
 import { getProducts } from "@/lib/get-products";
 import Image from "next/image";
-import Link from "next/link";
 import banner from "../images/banner.png";
 
 export default async function Home() {
@@ -16,42 +14,17 @@ export default async function Home() {
 
   return (
     <div>
-      <section className="rounded  bg-neutral-100 py-8 sm:py-12 relative overflow-hidden">
-        <Image
-          src={banner}
-          alt="Hero image"
-          fill
-          priority
-          className="object-cover md:object-[100%_5%] object-[33%_20%]"
-        />
-        <div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-8 sm:px-16 md:grid-cols-2 ">
-          <div className="max-w-max space-y-4 ">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl ">
-              {" "}
-              Welcome to MEME LEGENDS
-            </h2>
-            <p className="text-neutral-600">
-              Discover the latest products at the best prices.
-            </p>
-            <Button
-              asChild
-              variant={"default"}
-              className="inline-flex items-center justify-center rounded-full px-6 py-3 bg-blue-500  text-white"
-            >
-              <Link
-                href={"/products"}
-                className="inline-flex items-center justify-center rounded-full px-6 py-3"
-              >
-                Browse All products
-              </Link>
-            </Button>
-          </div>
+      <section>
+        <div
+          className="relative grid grid-cols-1 items-center md:h-150 h-60
+          px-8 sm:px-1 md:grid-cols-2 "
+        >
           <Image
-            className="rounded"
+            src={banner}
             alt="Hero image"
-            width={450}
-            height={450}
-            src={products[0].images[0].imageUrl || ""}
+            priority
+            fill
+            className="object-cover  rounded-2xl md:object-[100%_5%]"
           />
         </div>
       </section>
