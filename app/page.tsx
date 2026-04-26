@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { getProducts } from "@/lib/get-products";
 import Image from "next/image";
 import Link from "next/link";
+import banner from "../images/banner.png";
 
 export default async function Home() {
   const products = await getProducts("tshirts");
@@ -15,13 +16,13 @@ export default async function Home() {
 
   return (
     <div>
-      <section className="rounded bg-neutral-100 py-8 sm:py-12 relative overflow-hidden">
+      <section className="rounded  bg-neutral-100 py-8 sm:py-12 relative overflow-hidden">
         <Image
-          src="https://i.pinimg.com/736x/3f/c4/04/3fc4049b926b1779aa18f8e78cb2a90a.jpg"
+          src={banner}
           alt="Hero image"
           fill
           priority
-          className="object-cover object-[100%_37%]"
+          className="object-cover md:object-[100%_5%] object-[33%_20%]"
         />
         <div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-8 sm:px-16 md:grid-cols-2 ">
           <div className="max-w-max space-y-4 ">

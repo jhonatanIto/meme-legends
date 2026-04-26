@@ -180,7 +180,7 @@ const StatusMessage = ({
     <div
       style={{ display: openStatus ? "flex" : "none" }}
       onClick={() => setOpenStatus(false)}
-      className={`fixed inset-0  justify-center items-center bg-black/50 z-50 
+      className={`fixed inset-0  justify-center items-center bg-black/50 z-50 px-2 md:px-0
          transition-all duration-200 ease-in-out`}
     >
       <div
