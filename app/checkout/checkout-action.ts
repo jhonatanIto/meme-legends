@@ -20,6 +20,8 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
   const itemsJson = formData.get("items") as string;
   const items = JSON.parse(itemsJson) as CartItem[];
 
+  const hasNonShirt = items.some((i) => i.type !== "tshirts");
+
   const itemsLength = items.reduce((acc, item) => acc + item.quantity, 0);
 
   const dbProducts = await getProducts();
@@ -60,21 +62,23 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
     .values({ id: orderId, items: JSON.stringify(items) });
 
   let country = "US";
-  let shippingAmount = 500;
+  let shippingAmount = 800;
 
   try {
     const res = await fetch(`https://ipapi.co/${ip}/json/`);
     const data = await res.json();
     country = data.country_code;
 
-    shippingAmount = country === "US" ? 500 : 700;
-
     if (itemsLength >= 3) {
       shippingAmount = 0;
+    } else if (country === "US" && !hasNonShirt) {
+      shippingAmount = 500;
+    } else {
+      shippingAmount = 800;
     }
   } catch (error) {
     console.error(error);
-    shippingAmount = 500;
+    shippingAmount = 800;
   }
 
   const session = await stripe.checkout.sessions.create({
@@ -101,9 +105,15 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
         "DE",
         "FR",
         "ES",
+        "IT",
         "NL",
         "SE",
-        "IT",
+        "DK",
+        "FI",
+        "BE",
+        "AT",
+        "IE",
+        "PT",
       ],
     },
     shipping_options: [
