@@ -33,11 +33,16 @@ const Footer = () => {
             <div>Terms of Service</div>
           </Link>
         </div>
-
-        <div className="flex items-center gap-3 cursor-pointer">
-          <Image alt="Instagram" src={instagram} width={20} height={20} />
-          <span className="text-lg md:text-2xl">Instagram</span>
-        </div>
+        <a
+          href="https://www.instagram.com/meme_legends_11/?hl=en"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="flex items-center gap-3 cursor-pointer">
+            <Image alt="Instagram" src={instagram} width={20} height={20} />
+            <span className="text-lg md:text-2xl">Instagram</span>
+          </div>
+        </a>
       </div>
     </footer>
   );
