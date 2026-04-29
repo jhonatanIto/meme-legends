@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FreeShipping from "@/components/FreeShipping";
 import { Toaster } from "react-hot-toast";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
         <main className="grow container mx-auto px-4 py-8">{children}</main>
         <Footer />
         <Toaster />
+        <SpeedInsights />
       </body>
     </html>
   );
