@@ -19,6 +19,7 @@ const ALLOWED_COUNTRIES = [
   "AT",
   "IE",
   "PT",
+  "KR",
 ];
 
 export function proxy(req: NextRequest) {
