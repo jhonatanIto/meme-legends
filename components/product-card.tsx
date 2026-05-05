@@ -47,7 +47,8 @@ const ProductCard = ({ product }: Props) => {
                 src={currentUrl}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                className={`md:group-hover:scale-220 group-hover:scale-180 scale-120 ${product.type === "tshirts" ? "md:scale-110" : "md:scale-95"}
+                className={` group-hover:scale-180 scale-120 
+                  ${product.type === "tshirts" ? "md:scale-110 md:group-hover:scale-115" : "md:scale-95 md:group-hover:scale-100"}
                     object-cover transition-transform ease-out  duration-300 rounded-t-lg `}
               />
             </div>
