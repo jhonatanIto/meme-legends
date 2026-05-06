@@ -7,9 +7,8 @@ import banner from "../images/banner.png";
 export default async function Home() {
   const products = await getProducts("tshirts");
 
-  const arrivals = products.filter(
-    (p) =>
-      p.type === "tshirts" && [13, 17, 20, 22, 14, 16, 19, 12].includes(p.id),
+  const arrivals = products.filter((p) =>
+    [13, 23, 20, 22, 14, 16, 19, 12].includes(p.id),
   );
 
   return (

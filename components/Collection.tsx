@@ -2,6 +2,10 @@ import Image from "next/image";
 
 import billie from "../images/Billie eilish.png";
 import justin from "../images/justin.png";
+import leonardo from "../images/leonardo.png";
+import tomholland from "../images/tomholland.png";
+import speed from "../images/speed.png";
+import zendaya from "../images/zendaya.png";
 
 const Collection = () => {
   const pictures = [
@@ -12,22 +16,22 @@ const Collection = () => {
       url: justin,
     },
     {
-      url: billie,
+      url: leonardo,
     },
     {
-      url: justin,
+      url: tomholland,
     },
     {
-      url: billie,
+      url: speed,
     },
     {
-      url: justin,
+      url: zendaya,
     },
   ];
   return (
     <div>
       <h1 className="md:text-4xl font-semibold text-3xl text-gray-700">
-        Shop Collection
+        Collection
       </h1>
 
       <div className="grid md:grid-cols-3 grid-cols-2 md:grid-rows-2  md:gap-5 gap-2  mt-8 ">
