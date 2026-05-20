@@ -41,7 +41,7 @@ const getProductsList = unstable_cache(
     });
   },
   ["products"],
-  { revalidate: 1 },
+  { revalidate: 43200 },
 );
 
 export const getProducts = async (type?: productType, category?: Category) => {

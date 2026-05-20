@@ -8,7 +8,7 @@ export default async function Home() {
   const products = await getProducts("tshirts");
 
   const arrivals = products.filter((p) =>
-    [13, 23, 20, 22, 14, 16, 19, 12].includes(p.id),
+    [13, 23, 20, 22, 14, 16, 25, 12].includes(p.id),
   );
 
   return (
